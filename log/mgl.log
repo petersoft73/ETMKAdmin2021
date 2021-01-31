@@ -1,0 +1,14 @@
+2021-jan.-21 17:00:54 DU [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Access denied for user 'mgluser'@'localhost' (using password: YES)
+2021-jan.-21 17:04:59 DU [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Access denied for user 'mgluser'@'localhost' (using password: YES)
+2021-jan.-21 17:05:53 DU [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Access denied for user 'mgluser'@'localhost' (using password: YES)
+2021-jan.-29 06:28:04 DE [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Field 'uzemkepes' doesn't have a default value
+2021-jan.-29 06:41:15 DE [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Field 'uzemkepes' doesn't have a default value
+2021-jan.-31 11:02:12 DE [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2021-jan.-31 11:05:21 DE [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2021-jan.-31 11:07:19 DE [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.

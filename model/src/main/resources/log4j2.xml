@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <!-- File Appender -->
+        <File name="File" fileName="log/mgl.log">
+            <PatternLayout
+                    pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+
+    </Appenders>
+    <Loggers>
+        <!-- Log everything in hibernate -->
+        <Logger name="org.hibernate" level="error" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Logger>
+
+        <!--        &lt;!&ndash; Log all SQL statements &ndash;&gt;-->
+        <!--        <Logger name="org.hibernate.SQL" level="info" additivity="false">-->
+        <!--            <AppenderRef ref="Console"/>-->
+        <!--            <AppenderRef ref="File"/>-->
+        <!--        </Logger>-->
+
+        <!--        <Logger name="org.hibernate.type.descriptor.sql" level="info" additivity="false">-->
+        <!--            <AppenderRef ref="Console"/>-->
+        <!--            <AppenderRef ref="File"/>-->
+        <!--        </Logger>-->
+        <!--        <Logger name="org.hibernate.stat" level="DEBUG">-->
+        <!--            <AppenderRef ref="Console"/>-->
+        <!--            <AppenderRef ref="File"/>-->
+        <!--        </Logger>-->
+        <!--        <Logger name="org.hibernate.engine.internal.StatisticalLoggingSessionEventListener" level="info">-->
+        <!--            <AppenderRef ref="Console"/>-->
+        <!--            <AppenderRef ref="File"/>-->
+        <!--        </Logger>-->
+        <Root level="error">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

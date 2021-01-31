@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DailyReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3c5d0e27-dc3d-4f13-8304-a8cb30e8e6fd">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MGLDBAdapter"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM mgl2020.Javitas]]>
+	</queryString>
+	<field name="javitasKelte" class="java.time.LocalDate">
+		<property name="com.jaspersoft.studio.field.name" value="javitasKelte"/>
+		<property name="com.jaspersoft.studio.field.label" value="javitasKelte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="javitas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="leiras" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="leiras"/>
+		<property name="com.jaspersoft.studio.field.label" value="leiras"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="javitas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="muszakSzama" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="muszakSzama"/>
+		<property name="com.jaspersoft.studio.field.label" value="muszakSzama"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="javitas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="lepcso_lepcsoSzama" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="lepcso_lepcsoSzama"/>
+		<property name="com.jaspersoft.studio.field.label" value="lepcso_lepcsoSzama"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="javitas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="188" y="24" width="184" height="30" uuid="0cc036bf-85e9-4d55-8fb3-4cac32e4afc9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ETMK javítás napi jelentés]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="65" width="198" height="25" uuid="b102f3b5-09f8-4c80-9562-ab005d80e875"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{javitasKelte}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="2" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="-3" y="0" width="100" height="30" uuid="76c69f12-3b23-44bf-9cf9-be9f35d5a07f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="be7c05d5-0515-4d1e-98c6-3aa6ffcdba59"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Lépcső száma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="0" width="100" height="30" uuid="1106202b-5d0b-4fef-bb9d-fa1b4acd4c0d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ec032ce7-f293-458a-8ed1-1aebdd322765"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Javítás leírása]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="445" y="0" width="100" height="30" uuid="4d29b71f-d491-43c5-a014-b52ce681d6a7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5472af6a-179e-44d1-8ee2-2d42a2302c68"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Túr Száma]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<textField>
+				<reportElement x="-3" y="0" width="100" height="30" uuid="6ecc9524-a8e2-4bf7-ab6d-23d6fbc51d14">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="be7c05d5-0515-4d1e-98c6-3aa6ffcdba59"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lepcso_lepcsoSzama}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="97" y="0" width="343" height="30" uuid="e480b4b2-eae3-446b-a511-8598620c8404">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ec032ce7-f293-458a-8ed1-1aebdd322765"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.5"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{leiras}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="0" width="100" height="30" uuid="39dc9156-02ef-4f64-90ee-d0c500df4e5f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5472af6a-179e-44d1-8ee2-2d42a2302c68"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{muszakSzama}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="210" y="20" width="100" height="30" uuid="13d9f7f4-68b6-4f1a-8769-9c60105168f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[A jelentés készült: ]]></text>
+			</staticText>
+			<textField pattern="yyyy. MMMMM dd. HH:mm">
+				<reportElement x="310" y="20" width="140" height="30" uuid="626ee2b9-38fe-4f2f-b7b2-049174bb84eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="7" splitType="Stretch"/>
+	</summary>
+</jasperReport>
