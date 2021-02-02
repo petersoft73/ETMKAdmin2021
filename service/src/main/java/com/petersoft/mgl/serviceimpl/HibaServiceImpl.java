@@ -16,18 +16,12 @@ public class HibaServiceImpl implements HibaService {
 
     @Override
     public List<Hiba> getHibaList(Lepcso lepcso) {
-        return DBConnector.getHibaList().stream()
-                .filter(e -> !e.getLeiras().equals(""))
-                .filter(hiba -> hiba.getLepcso().getLepcsoSzama() == lepcso.getLepcsoSzama())
-                .sorted(Comparator.comparing(Hiba::getDatum).reversed())
-                .collect(Collectors.toList());
+        return DBConnector.getHibaList();
     }
 
     @Override
     public List<Hiba> getHibaList() {
-        return DBConnector.getHibaList().stream()
-                .filter(e -> !e.getLeiras().equals(""))
-                .collect(Collectors.toList());
+        return DBConnector.getHibaList();
     }
 
     @Override

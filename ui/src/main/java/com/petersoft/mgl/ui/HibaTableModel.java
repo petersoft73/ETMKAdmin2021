@@ -40,7 +40,7 @@ class HibaTableModel extends AbstractTableModel {
             case 0:
                 return hiba.getLeiras();
             case 1:
-                return hiba.getDatum().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                return null;//hiba.getDatum().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
         return null;
     }

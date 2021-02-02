@@ -6,29 +6,25 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Hiba {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int hibaId;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Lepcso lepcso;
     @CreationTimestamp
     private LocalDateTime creationDateTime;
-
+    @OneToMany(mappedBy = "hiba")
+    private List<Javitas> javitasList;
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
-    private LocalDate datum;
     private String leiras;
 
     public Hiba() {
-
     }
 
-    public Hiba(Lepcso lepcso, LocalDate datum, String leiras) {
-        this.lepcso = lepcso;
-        this.datum = datum;
+    public Hiba(String leiras) {
         this.leiras = leiras;
     }
 
@@ -40,21 +36,6 @@ public class Hiba {
         this.hibaId = hibaId;
     }
 
-    public Lepcso getLepcso() {
-        return lepcso;
-    }
-
-    public void setLepcso(Lepcso lepcso) {
-        this.lepcso = lepcso;
-    }
-
-    public LocalDate getDatum() {
-        return datum;
-    }
-
-    public void setDatum(LocalDate datum) {
-        this.datum = datum;
-    }
 
     public String getLeiras() {
         return leiras;
@@ -66,7 +47,7 @@ public class Hiba {
 
     @Override
     public String toString() {
-        return leiras + " " + getDatum();
+        return leiras;
     }
 
     public LocalDateTime getCreationDateTime() {
@@ -83,5 +64,13 @@ public class Hiba {
 
     public void setUpdateDateTime(LocalDateTime updateDateTime) {
         this.updateDateTime = updateDateTime;
+    }
+
+    public List<Javitas> getJavitasList() {
+        return javitasList;
+    }
+
+    public void setJavitasList(List<Javitas> javitasList) {
+        this.javitasList = javitasList;
     }
 }

@@ -26,13 +26,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class JavitasInputPanel extends JPanel {
-    protected List<Hiba> hibaList;
     private final MainFrame frame;
     private final HibaService hibaService;
     private final JavitasService javitasService;
     private final LepcsoService lepcsoService;
     private final List<Lepcso> lepcsoList;
-    private final DatePicker datePicker;
+    private DatePicker datePicker;
+    protected List<Hiba> hibaList;
     private List<Javitas> javitasList;
     private List<Status> statusList;
     private Lepcso lepcso;
@@ -54,7 +54,6 @@ public class JavitasInputPanel extends JPanel {
     private HibaListDialog hibaListDialog;
     private Javitas javitas;
     private int muszakSzama;
-    private String hibaListItem;
 
     public JavitasInputPanel(MainFrame frame) throws Throwable {
         this.frame = frame;
@@ -63,8 +62,7 @@ public class JavitasInputPanel extends JPanel {
         this.statusList = lepcsoService.getStatusList();
         this.hibaService = new HibaServiceImpl();
         this.javitasService = new JavitasServiceImpl();
-        this.datePicker = new CustomDatePickerClass();
-        datePicker.setDateToToday();
+
         setLayout(new BorderLayout());
         setLepcsoPanel();
         add(lepcsoPanel, BorderLayout.NORTH);
@@ -73,8 +71,7 @@ public class JavitasInputPanel extends JPanel {
         setJavitasPanel();
         add(javitasPanel, BorderLayout.CENTER);
         setLepcsoFieldCombox();
-        datePicker.addDateChangeListener(event -> setMuszakSzamaComboBox());
-
+      //  datePicker.addDateChangeListener(event -> setMuszakSzamaComboBox());
 
 
     }
@@ -154,23 +151,20 @@ public class JavitasInputPanel extends JPanel {
                         } catch (Exception exception) {
                             JOptionPane.showMessageDialog(null, exception.getMessage());
                         }
-                        List<String> hibaListSet = new ArrayList<>();
+                        List<Hiba> hibaListSet = new ArrayList<>();
                         try {
                             hibaListSet = hibaList.stream()
                                     .sorted(Comparator.comparing(Hiba::getLeiras,
                                             new RuleBasedCollator(StringConstants.HUNGARIAN_COLLATOR_RULES)))
-                                    .map (h -> h.getLeiras())
-                                    .distinct()
                                     .collect(Collectors.toList());
                         } catch (ParseException parseException) {
                             parseException.printStackTrace();
                         }
 
                         hibaListDialog = new HibaListDialog(hibaListSet);
-                        if (!hibaList.isEmpty()) {
-                            hibaListItem = hibaListDialog.getSelectedHiba();
-                            hibaListField.append(hibaListItem);
-                        }
+
+                        hibaListField.setText(hibaListDialog.getSelectedHiba().getLeiras());
+                        hiba = hibaListDialog.getSelectedHiba();
                     }
                 }
         );
@@ -178,7 +172,10 @@ public class JavitasInputPanel extends JPanel {
         mentesButton.addActionListener(e -> {
             if (lepcso != null) {
                 if (!javitasLeirasField.getText().isEmpty()) {
-                    this.hiba = new Hiba(lepcso, datePicker.getDate(), hibaListField.getText());
+                    if (hiba == null) {
+                        hiba = new Hiba();
+                        hiba.setLeiras(hibaListField.getText());
+                    }
                     int click = JOptionPane.showConfirmDialog(null,
                             "Helyesek az adatok?\n"
                                     + lepcso.getLepcsoSzama() + "\n"
@@ -368,15 +365,18 @@ public class JavitasInputPanel extends JPanel {
         lepcsoJComboBox.setSize(20, 10);
         fillComboBoxWithLepcsoId();
         lepcsoJComboBox.setSelectedIndex(-1);
-        muszakSzamaComboBox = new JComboBox<>();
-        muszakSzamaComboBox.setEditable(false);
-        setMuszakSzamaComboBox();
-        //   muszakSzamaComboBox.setSelectedIndex(0);
+        datePicker = new DatePicker();
         Integer[] muszakSzamArray = {1, 2, 3, 4, 5};
         muszakSzamaComboBox = new JComboBox<>(muszakSzamArray);
-        muszakSzamaComboBox.setSelectedIndex(0);
-        muszakSzama = 1;
-        setListenerMuszakComboBox();
+     //   muszakSzamaComboBox = new JComboBox<>();
+        muszakSzamaComboBox.setEditable(false);
+        datePicker.addDateChangeListener(e -> setMuszakSzamaComboBox());
+        datePicker.setDateToToday();
+        //   setMuszakSzamaComboBox();
+        //   muszakSzamaComboBox.setSelectedIndex(0);
+      //  muszakSzamaComboBox.setSelectedIndex(0);
+      //  muszakSzama = 1;
+     //   setListenerMuszakComboBox();
         lepcsoPanel.add(lepcsoLabel, FlowLayout.LEFT);
         lepcsoPanel.add(lepcsoJComboBox, FlowLayout.CENTER);
         lepcsoPanel.add(tipusLabel);

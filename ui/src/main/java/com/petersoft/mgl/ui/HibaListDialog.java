@@ -1,5 +1,7 @@
 package com.petersoft.mgl.ui;
 
+import com.petersoft.mgl.model.Hiba;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -7,14 +9,14 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 class HibaListDialog extends JDialog {
-    private final List<String> hibaList;
-    private final JList<String> hibaJList;
+    private final List<Hiba> hibaList;
+    private final JList<Hiba> hibaJList;
     private JButton kivalasztButton, visszaButton;
     private JavitasInputPanel javitasInputPanel;
-    private String hibaString;
+    private Hiba hiba;
 
 
-    public HibaListDialog(List<String> hibaList) {
+    public HibaListDialog(List<Hiba> hibaList) {
 
         this.hibaList = hibaList;
         this.hibaJList = new JList(hibaList.toArray());
@@ -37,7 +39,7 @@ class HibaListDialog extends JDialog {
 
 
     private void setDialogHibaList() {
-        DefaultListModel<String> model = new DefaultListModel<>();
+        DefaultListModel<Hiba> model = new DefaultListModel<>();
         hibaList.forEach(e -> model.addElement(e));
         //  TableModel tableModel = new HibaTableModel(hibaList);
         hibaJList.setModel(model);
@@ -47,7 +49,7 @@ class HibaListDialog extends JDialog {
         kivalasztButton = new JButton("Kiválasztás");
         visszaButton = new JButton("Vissza");
         kivalasztButton.addActionListener(e -> {
-            hibaString = hibaJList.getSelectedValue();
+            hiba = hibaJList.getSelectedValue();
             dispose();
         });
 
@@ -58,19 +60,19 @@ class HibaListDialog extends JDialog {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     //   int selectedRow = hibaJList.getSelectedRow();
-                    hibaString = hibaJList.getSelectedValue();
+                    hiba = hibaJList.getSelectedValue();
                     dispose();
                 }
             }
         });
 
         visszaButton.addActionListener(e -> {
-            hibaString = "";
+            hiba = new Hiba();
             setVisible(false);
         });
     }
 
-    public String getSelectedHiba() {
-        return this.hibaString;
+    public Hiba getSelectedHiba() {
+        return this.hiba;
     }
 }

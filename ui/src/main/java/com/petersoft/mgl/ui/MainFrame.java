@@ -97,14 +97,14 @@ public class MainFrame extends JFrame {
 
     private void initPanels() {
         try {
-            this.karbanTartasInputPanel = new KarbanTartasInputPanel(this);
-            this.lepcsoListPanel = new LepcsoListPanel(this);
-            this.erVedInputPanel = new ErVedInputPanel(this);
-            this.hibaInputPanel = new HibaInputPanel(this);
-            this.javitasInputPanel = new JavitasInputPanel(this);
-            this.jelentesPanel = new JelentesPanel(this);
-            this.leltarPanel = new LeltarPanel(this);
-            this.napiDolgozoPanel = new NapiDolgozoPanel(this);
+//            this.karbanTartasInputPanel = new KarbanTartasInputPanel(this);
+//            this.lepcsoListPanel = new LepcsoListPanel(this);
+//            this.erVedInputPanel = new ErVedInputPanel(this);
+//         //   this.hibaInputPanel = new HibaInputPanel(this);
+//            this.javitasInputPanel = new JavitasInputPanel(this);
+//            this.jelentesPanel = new JelentesPanel(this);
+//            this.leltarPanel = new LeltarPanel(this);
+//            this.napiDolgozoPanel = new NapiDolgozoPanel(this);
         } catch (Throwable e) {
             JOptionPane.showMessageDialog(null, e.getStackTrace());
         }
@@ -145,24 +145,24 @@ public class MainFrame extends JFrame {
         }
 
         public void showHibaInputPanel (Lepcso lepcso) throws Throwable {
-            framePanel.setVisible(false);
-            this.hibaInputPanel = new HibaInputPanel(this, lepcso);
-            add(hibaInputPanel);
-            hibaInputPanel.setVisible(true);
+//            framePanel.setVisible(false);
+//            this.hibaInputPanel = new HibaInputPanel(this, lepcso);
+//            add(hibaInputPanel);
+//            hibaInputPanel.setVisible(true);
         }
 
         public void showHibaInputPanel () throws Throwable {
-            framePanel.setVisible(false);
-            this.hibaInputPanel = new HibaInputPanel(this);
-            add(hibaInputPanel);
-            hibaInputPanel.setVisible(true);
+//            framePanel.setVisible(false);
+//            this.hibaInputPanel = new HibaInputPanel(this);
+//            add(hibaInputPanel);
+//            hibaInputPanel.setVisible(true);
         }
 
         public void showHibaInputPanel (Lepcso lepcso, Hiba hiba) throws Throwable {
-            framePanel.setVisible(false);
-            this.hibaInputPanel = new HibaInputPanel(this, lepcso, hiba);
-            add(hibaInputPanel);
-            hibaInputPanel.setVisible(true);
+//            framePanel.setVisible(false);
+//            this.hibaInputPanel = new HibaInputPanel(this, lepcso, hiba);
+//            add(hibaInputPanel);
+//            hibaInputPanel.setVisible(true);
         }
 
         public void showJavitasInputPanel () throws Throwable {

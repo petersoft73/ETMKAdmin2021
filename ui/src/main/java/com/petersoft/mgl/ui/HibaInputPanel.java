@@ -70,8 +70,8 @@ public class HibaInputPanel extends JPanel {
     }
 
     private void setHibaFields(Hiba hiba) {
-        hibaKeltField.setText(hiba.getDatum().toString());
-        datePicker.setDate(hiba.getDatum());
+      //  hibaKeltField.setText(hiba.getDatum().toString());
+      //  datePicker.setDate(hiba.getDatum());
         hibaLeirasField.append(hiba.getLeiras());
 
     }
@@ -93,8 +93,8 @@ public class HibaInputPanel extends JPanel {
                         hiba = new Hiba();
                     }
                     hiba.setLeiras(hibaLeirasField.getText());
-                    hiba.setDatum(datePicker.getDate());
-                    hiba.setLepcso(lepcso);
+                 //   hiba.setDatum(datePicker.getDate());
+                 //   hiba.setLepcso(lepcso);
                     try {
                         hibaService.saveHiba(hiba);
                     } catch (Exception exception) {

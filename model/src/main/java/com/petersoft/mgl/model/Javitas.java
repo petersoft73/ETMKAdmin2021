@@ -17,7 +17,8 @@ public class Javitas {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Lepcso lepcso;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "hibaId")
     private Hiba hiba;
 
     @CreationTimestamp
@@ -40,7 +41,6 @@ public class Javitas {
         this.leiras = leiras;
         this.javitasKelte = javitasKelte;
         this.lepcso.setStatus(uzemkepes);
-        this.hiba = new Hiba();
         this.muszakSzama = muszakSzama;
         //  setLepcsoUzemkepes(uzemkepes);
     }
