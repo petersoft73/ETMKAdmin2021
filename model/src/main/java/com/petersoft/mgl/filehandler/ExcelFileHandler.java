@@ -83,7 +83,7 @@ public class ExcelFileHandler {
             for (int i = 0; i < numberOfSheets; i++) {
                 XSSFSheet s = xssfWorkbook.getSheetAt(i);
                 int lastRowNumber = s.getLastRowNum();
-                if (i == 1) lastRowNumber = 66;
+              //  if (i == 1) lastRowNumber = 62;
                 for (int j = FIRST_DATA_ROW_INDEX; j <= lastRowNumber; j++) {
                     int lepcsoSzama = 0;
                     for (int k = FIRST_DATA_COLUMN_INDEX;
@@ -96,11 +96,14 @@ public class ExcelFileHandler {
                                 resultMap.put(lepcsoSzama, cell.getStringCellValue().trim());
                             }
                         }
+                        System.out.println("Sheet No: " + i + " Row No: " + j + " Cell No: " + k);
+                        System.out.println(resultMap);
                     }
                 }
             }
         } catch (Exception e) {
-            throw new IOException(e.getMessage());
+            e.printStackTrace();
+            throw new IOException(e.getCause());
         }
         return resultMap;
     }
