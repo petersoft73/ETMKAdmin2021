@@ -8,7 +8,7 @@ public class JelentesPanel extends JPanel {
     private JButton napiJelentesButton;
     private JButton lepcsoTortenetButton;
     private JButton hianyzoKarbantartasButton;
-    private JButton mainMenuButton;
+    private JButton mainMenuButton, idoszakiJelentesButton;
     private MainFrame frame;
 
     public JelentesPanel(MainFrame frame) {
@@ -31,7 +31,9 @@ public class JelentesPanel extends JPanel {
         lepcsoTortenetButton = new JButton("Lépcsőkar történet...");
         hianyzoKarbantartasButton = new JButton("Hiányzó Karbantartások...");
         mainMenuButton = new JButton("Vissza a Főmenübe");
+        idoszakiJelentesButton = new JButton("Időszaki jelentés");
         add(napiJelentesButton);
+        add(idoszakiJelentesButton);
         add(lepcsoTortenetButton);
         add(hianyzoKarbantartasButton);
         add(mainMenuButton);
@@ -45,6 +47,10 @@ public class JelentesPanel extends JPanel {
 
         napiJelentesButton.addActionListener(e -> {
             new NapiJelentesDialog(frame);
+        });
+
+        idoszakiJelentesButton.addActionListener(e -> {
+            new IdoszakiJelentesDialog(frame);
         });
 
         lepcsoTortenetButton.addActionListener(e -> {

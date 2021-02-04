@@ -273,4 +273,25 @@ public class DBConnector extends AbstractQuery {
         EntityManagerHandler.INSTANCE.getEntityManager().remove(napiRekord);
         EntityManagerHandler.INSTANCE.getEntityTransaction().commit();
     }
+
+    public static List<Javitas> getIdoszakosJavitas(LocalDate startDate, LocalDate endDate) {
+        open();
+        String sql = "SELECT j FROM Javitas j WHERE javitasKelte BETWEEN :startDate AND :endDate ";
+        Query query = EntityManagerHandler.INSTANCE.getEntityManager().createQuery(sql, Javitas.class);
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
+
+        return query.getResultList();
+    }
+
+    public static List<Karbantartas> getIdoszakosKarbantartas(LocalDate startDate, LocalDate endDate) {
+        open();
+        String sql = "SELECT k FROM Karbantartas k WHERE karbantartasDatum BETWEEN :startDate AND :endDate " +
+                "ORDER BY karbantartasDatum, lepcsoSzama";
+        Query query = EntityManagerHandler.INSTANCE.getEntityManager().createQuery(sql, Karbantartas.class);
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
+
+        return query.getResultList();
+    }
 }

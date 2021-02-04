@@ -31,8 +31,8 @@ public class JavitasInputPanel extends JPanel {
     private final JavitasService javitasService;
     private final LepcsoService lepcsoService;
     private final List<Lepcso> lepcsoList;
+    protected List<Hiba> hibaListSet;
     private DatePicker datePicker;
-    protected List<Hiba> hibaList;
     private List<Javitas> javitasList;
     private List<Status> statusList;
     private Lepcso lepcso;
@@ -71,7 +71,7 @@ public class JavitasInputPanel extends JPanel {
         setJavitasPanel();
         add(javitasPanel, BorderLayout.CENTER);
         setLepcsoFieldCombox();
-      //  datePicker.addDateChangeListener(event -> setMuszakSzamaComboBox());
+        //  datePicker.addDateChangeListener(event -> setMuszakSzamaComboBox());
 
 
     }
@@ -146,20 +146,28 @@ public class JavitasInputPanel extends JPanel {
                 new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        List<Hiba> hibaList = new ArrayList<>();
                         try {
-                            hibaList = hibaService.getHibaList();
+                            hibaList = hibaService.getHibaList().stream()
+                                    .filter(Objects::nonNull)
+                                    .collect(Collectors.toList());
                         } catch (Exception exception) {
                             JOptionPane.showMessageDialog(null, exception.getMessage());
                         }
-                        List<Hiba> hibaListSet = new ArrayList<>();
+                        hibaListSet = new ArrayList<>();
                         try {
                             hibaListSet = hibaList.stream()
+                                    .filter(Objects::nonNull)
+                                    .filter(h -> !h.getLeiras().isEmpty())
                                     .sorted(Comparator.comparing(Hiba::getLeiras,
                                             new RuleBasedCollator(StringConstants.HUNGARIAN_COLLATOR_RULES)))
                                     .collect(Collectors.toList());
                         } catch (ParseException parseException) {
                             parseException.printStackTrace();
                         }
+//                        catch (Exception exception) {
+//                            exception.printStackTrace();
+//                        }
 
                         hibaListDialog = new HibaListDialog(hibaListSet);
 
@@ -172,10 +180,12 @@ public class JavitasInputPanel extends JPanel {
         mentesButton.addActionListener(e -> {
             if (lepcso != null) {
                 if (!javitasLeirasField.getText().isEmpty()) {
-                    if (hiba == null) {
-                        hiba = new Hiba();
-                        hiba.setLeiras(hibaListField.getText());
-                    }
+//                    System.out.println(hiba);
+//                    if (hiba == null) {
+//                        System.out.println("Hiba == null: " + hiba);
+//                        hiba = new Hiba();
+//                        hiba.setLeiras(hibaListField.getText());
+//                    }
                     int click = JOptionPane.showConfirmDialog(null,
                             "Helyesek az adatok?\n"
                                     + lepcso.getLepcsoSzama() + "\n"
@@ -184,11 +194,24 @@ public class JavitasInputPanel extends JPanel {
                                     + status.getSelectedItem().toString() + "\n"
                                     + muszakSzama
                                     + ". túr" + "\n"
-                                    + this.hiba.getLeiras(),
+                                    + hibaListField.getText(),
                             "Javítás Felvitele", JOptionPane.YES_NO_OPTION);
                     if (click == JOptionPane.YES_OPTION) {
                         javitasKeltField.setText(datePicker.getDateStringOrEmptyString());
                         lepcso.setStatus((Status) status.getSelectedItem());
+                        if (hibaListField.getText().isEmpty()) hiba = null;
+                        if (!hibaListField.getText().isEmpty()) {
+                            if (hiba == null) {
+                                this.hiba = new Hiba(hibaListField.getText());
+                                try {
+                                    hibaService.saveHiba(this.hiba);
+                                } catch (Exception exception) {
+                                    exception.printStackTrace();
+                                }
+                            }
+                        }
+
+                        System.out.println(hiba);
                         if (javitas == null) {
                             this.javitas = new Javitas(lepcso,
                                     javitasLeirasField.getText(),
@@ -203,7 +226,7 @@ public class JavitasInputPanel extends JPanel {
                             this.javitas.setHiba(hiba);
                         }
                         try {
-                            hibaService.saveHiba(hiba);
+                            //  hibaService.saveHiba(hiba);
                             javitasService.saveJavitas(this.javitas);
                             lepcsoService.saveLepcso(lepcso);
                             javitas = null;
@@ -368,15 +391,15 @@ public class JavitasInputPanel extends JPanel {
         datePicker = new DatePicker();
         Integer[] muszakSzamArray = {1, 2, 3, 4, 5};
         muszakSzamaComboBox = new JComboBox<>(muszakSzamArray);
-     //   muszakSzamaComboBox = new JComboBox<>();
+        //   muszakSzamaComboBox = new JComboBox<>();
         muszakSzamaComboBox.setEditable(false);
         datePicker.addDateChangeListener(e -> setMuszakSzamaComboBox());
         datePicker.setDateToToday();
         //   setMuszakSzamaComboBox();
         //   muszakSzamaComboBox.setSelectedIndex(0);
-      //  muszakSzamaComboBox.setSelectedIndex(0);
-      //  muszakSzama = 1;
-     //   setListenerMuszakComboBox();
+        //  muszakSzamaComboBox.setSelectedIndex(0);
+        //  muszakSzama = 1;
+        //   setListenerMuszakComboBox();
         lepcsoPanel.add(lepcsoLabel, FlowLayout.LEFT);
         lepcsoPanel.add(lepcsoJComboBox, FlowLayout.CENTER);
         lepcsoPanel.add(tipusLabel);

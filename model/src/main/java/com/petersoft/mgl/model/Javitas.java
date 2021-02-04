@@ -12,7 +12,7 @@ import java.sql.Date;
 public class Javitas {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int javitasId;
+    private Integer javitasId;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Lepcso lepcso;
@@ -32,6 +32,12 @@ public class Javitas {
   //  private Status uzemkepes;
     private int muszakSzama;
 
+    @Transient
+    private int lepcsoSzama;
+
+//    @OneToMany(mappedBy = "javitas")
+//    private List<JavitasTranzakcio> javitasTranzakcioList;
+
     public Javitas() {
 
     }
@@ -42,6 +48,7 @@ public class Javitas {
         this.javitasKelte = javitasKelte;
         this.lepcso.setStatus(uzemkepes);
         this.muszakSzama = muszakSzama;
+      //  this.lepcsoSzama = lepcso.getLepcsoSzama();
         //  setLepcsoUzemkepes(uzemkepes);
     }
 
@@ -137,7 +144,15 @@ public class Javitas {
         this.updateDateTime = updateDateTime;
     }
 
-//    public Status getUzemkepes() {
+    public int getLepcsoSzama() {
+        return lepcsoSzama;
+    }
+
+    public void setLepcsoSzama(int lepcsoSzama) {
+        this.lepcsoSzama = lepcsoSzama;
+    }
+
+    //    public Status getUzemkepes() {
 //        return uzemkepes;
 //    }
 //

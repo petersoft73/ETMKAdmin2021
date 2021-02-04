@@ -23,11 +23,11 @@ import java.util.List;
 
 
 public class SearchBarDialog extends JPanel {
-    private JTable hibaJTable;
+  //  private JTable hibaJTable;
     private JTable javitasJTable;
     private JTextField searchTxt;
-    private final HibaService hibaService = new HibaServiceImpl();
-    private List<Hiba> hibaList;
+ //   private final HibaService hibaService = new HibaServiceImpl();
+ //   private List<Hiba> hibaList;
     private final JavitasService javitasService = new JavitasServiceImpl();
     private List<Javitas> javitasList;
     private final MainFrame frame;
@@ -43,30 +43,30 @@ public class SearchBarDialog extends JPanel {
     }
 
     private void initTableSorter() {
-        hibaJTable.setAutoCreateRowSorter(true);
+     //   hibaJTable.setAutoCreateRowSorter(true);
         javitasJTable.setAutoCreateRowSorter(true);
-        TableRowSorter<TableModel> sorterHiba = new TableRowSorter<>(hibaJTable.getModel());
+     //   TableRowSorter<TableModel> sorterHiba = new TableRowSorter<>(hibaJTable.getModel());
         TableRowSorter<TableModel> sorterJavitas = new TableRowSorter<>(javitasJTable.getModel());
-        hibaJTable.setRowSorter(sorterHiba);
+     //   hibaJTable.setRowSorter(sorterHiba);
         javitasJTable.setRowSorter(sorterJavitas);
         List<RowSorter.SortKey> sortKeysJavitas = new ArrayList<>();
         List<RowSorter.SortKey> sortKeysHiba = new ArrayList<>();
         for (int i = 0; i < javitasJTable.getModel().getColumnCount(); i++) {
             sortKeysJavitas.add(new RowSorter.SortKey(i, SortOrder.ASCENDING));
         }
-        for (int i = 0; i < hibaJTable.getModel().getColumnCount(); i++) {
-            sortKeysHiba.add(new RowSorter.SortKey(i, SortOrder.ASCENDING));
-        }
+     //   for (int i = 0; i < hibaJTable.getModel().getColumnCount(); i++) {
+      //      sortKeysHiba.add(new RowSorter.SortKey(i, SortOrder.ASCENDING));
+      //  }
 
-        sorterHiba.setSortKeys(sortKeysHiba);
-        sorterJavitas.setSortKeys(sortKeysJavitas);
+   //     sorterHiba.setSortKeys(sortKeysHiba);
+    //    sorterJavitas.setSortKeys(sortKeysJavitas);
 
-        sorterHiba.addRowSorterListener(e -> {
-            int indexNoOfColumn = 0;
-            for (int i = 0; i < hibaJTable.getRowCount(); i++) {
-                hibaJTable.setValueAt(i + 1, i, indexNoOfColumn);
-            }
-        });
+//        sorterHiba.addRowSorterListener(e -> {
+//            int indexNoOfColumn = 0;
+//            for (int i = 0; i < hibaJTable.getRowCount(); i++) {
+//                hibaJTable.setValueAt(i + 1, i, indexNoOfColumn);
+//            }
+//        });
 
         sorterJavitas.addRowSorterListener(e -> {
             int indexNoOfColumn = 0;
@@ -78,32 +78,32 @@ public class SearchBarDialog extends JPanel {
     }
 
     private void bindData() throws Exception {
-        hibaList = hibaService.getHibaList();
+     //   hibaList = hibaService.getHibaList();
         javitasList = javitasService.getJavitasList();
     }
 
     private void initComponents() {
-        hibaJTable = new JTable();
+    //    hibaJTable = new JTable();
         javitasJTable = new JTable();
-        hibaJTable.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 13));
+    //    hibaJTable.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 13));
         javitasJTable.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 13));
 
         JPanel jPanel2 = new JPanel();
-        JPanel hibaListPanel = new JPanel();
+     //   JPanel hibaListPanel = new JPanel();
         JPanel javitasListPanel = new JPanel();
-        JScrollPane hibaJScrollPane = new JScrollPane();
+     //   JScrollPane hibaJScrollPane = new JScrollPane();
         JScrollPane javitasJScrollPane = new JScrollPane();
         javitasJScrollPane.setPreferredSize(new Dimension(800,400));
         searchTxt = new JTextField(30);
         JLabel searchLabel = new JLabel();
-        hibaListPanel.add(hibaJScrollPane);
+     //   hibaListPanel.add(hibaJScrollPane);
         javitasListPanel.add(javitasJScrollPane);
       //  jPanel2.add(hibaJScrollPane);
         jPanel2.add(javitasJScrollPane);
         JButton mainMenuButton = new JButton("Főmenü");
         JButton lepcsoListButton = new JButton("Lépcsőlista");
 
-        hibaJScrollPane.setViewportView(hibaJTable);
+    //    hibaJScrollPane.setViewportView(hibaJTable);
         javitasJScrollPane.setViewportView(javitasJTable);
 
         searchTxt.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 18)); // NOI18N
@@ -137,24 +137,24 @@ public class SearchBarDialog extends JPanel {
             }
         });
 
-        hibaJTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                JTable table = (JTable) e.getSource();
-                Point point = e.getPoint();
-                int row = table.rowAtPoint(point);
-                StringBuilder displayHiba = new StringBuilder();
-                if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    for (int i = 0; i < table.getModel().getColumnCount(); i++) {
-                        displayHiba.append(table.getModel().getValueAt(row, i)).append("\n\n");
-                    }
-                    JOptionPane.showMessageDialog(null,
-                            WordUtils.wrap(String.valueOf(displayHiba), 30),
-                            "Leírás",
-                            JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
-        });
+//        hibaJTable.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                JTable table = (JTable) e.getSource();
+//                Point point = e.getPoint();
+//                int row = table.rowAtPoint(point);
+//                StringBuilder displayHiba = new StringBuilder();
+//                if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
+//                    for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+//                        displayHiba.append(table.getModel().getValueAt(row, i)).append("\n\n");
+//                    }
+//                    JOptionPane.showMessageDialog(null,
+//                            WordUtils.wrap(String.valueOf(displayHiba), 30),
+//                            "Leírás",
+//                            JOptionPane.INFORMATION_MESSAGE);
+//                }
+//            }
+//        });
 
         javitasJTable.addMouseListener(new MouseAdapter() {
 
@@ -187,12 +187,12 @@ public class SearchBarDialog extends JPanel {
         List<Hiba> listHiba = new ArrayList<>();
         List<Javitas> listJavitas = new ArrayList<>();
 
-        for (Hiba h : hibaList) {
-            String hibaLeiras = h.getLeiras().toLowerCase();
-            if (hibaLeiras.contains(searchTerm.toLowerCase())) {
-                listHiba.add(h);
-            }
-        }
+//        for (Hiba h : hibaList) {
+//            String hibaLeiras = h.getLeiras().toLowerCase();
+//            if (hibaLeiras.contains(searchTerm.toLowerCase())) {
+//                listHiba.add(h);
+//            }
+//        }
 
         for (Javitas j : javitasList) {
             String javitasLeiras = j.getLeiras().toLowerCase();
@@ -206,9 +206,9 @@ public class SearchBarDialog extends JPanel {
         }
 
 
-        HibaTableModelSearchBar hibaTableModel = new HibaTableModelSearchBar(listHiba);
-        this.hibaJTable.setModel(hibaTableModel);
-        hibaTableModel.fireTableDataChanged();
+//        HibaTableModelSearchBar hibaTableModel = new HibaTableModelSearchBar(listHiba);
+//        this.hibaJTable.setModel(hibaTableModel);
+//        hibaTableModel.fireTableDataChanged();
         JavitasTableModelSearchBar javitasTableModel = new JavitasTableModelSearchBar(listJavitas);
         this.javitasJTable.setModel(javitasTableModel);
         javitasTableModel.fireTableDataChanged();

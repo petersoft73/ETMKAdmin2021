@@ -12,7 +12,7 @@ import java.util.List;
 public class Hiba {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int hibaId;
+    private Integer hibaId;
     @CreationTimestamp
     private LocalDateTime creationDateTime;
     @OneToMany(mappedBy = "hiba")

@@ -3,14 +3,17 @@ package com.petersoft.mgl.model;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import java.util.List;
+import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 
 //@Entity
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Raktar {
+public class Tranzakcio {
     private Integer id;
-    private List<Alkatresz> alkatreszList;
-    private List<Tranzakcio> tranzakcioList;
+    private Alkatresz alkatresz;
+    private Raktar raktarHonnan;
+    private LocalDate datum;
 
-
+//    @ManyToOne
+//    private Javitas javitas;
 }

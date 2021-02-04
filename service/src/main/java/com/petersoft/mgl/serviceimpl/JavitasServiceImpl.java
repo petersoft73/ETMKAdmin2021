@@ -40,4 +40,9 @@ public class JavitasServiceImpl implements JavitasService {
         javitasList.sort(Comparator.comparing(Javitas::getJavitasKelte));
         return javitasList;
     }
+
+    @Override
+    public List<Javitas> getIdoszakosJavitas(LocalDate startDate, LocalDate endDate) {
+        return DBConnector.getIdoszakosJavitas(startDate, endDate);
+    }
 }

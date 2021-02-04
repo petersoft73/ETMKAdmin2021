@@ -68,7 +68,7 @@ public class MainFrame extends JFrame {
     private void showSearchBarDialog() throws Exception {
         framePanel.setVisible(false);
         lepcsoListPanel.setVisible(false);
-        hibaInputPanel.setVisible(false);
+     //   hibaInputPanel.setVisible(false);
         erVedInputPanel.setVisible(false);
         javitasInputPanel.setVisible(false);
         karbanTartasInputPanel.setVisible(false);
@@ -97,18 +97,17 @@ public class MainFrame extends JFrame {
 
     private void initPanels() {
         try {
-//            this.karbanTartasInputPanel = new KarbanTartasInputPanel(this);
-//            this.lepcsoListPanel = new LepcsoListPanel(this);
-//            this.erVedInputPanel = new ErVedInputPanel(this);
-//         //   this.hibaInputPanel = new HibaInputPanel(this);
-//            this.javitasInputPanel = new JavitasInputPanel(this);
-//            this.jelentesPanel = new JelentesPanel(this);
-//            this.leltarPanel = new LeltarPanel(this);
-//            this.napiDolgozoPanel = new NapiDolgozoPanel(this);
+            this.karbanTartasInputPanel = new KarbanTartasInputPanel(this);
+            this.lepcsoListPanel = new LepcsoListPanel(this);
+            this.erVedInputPanel = new ErVedInputPanel(this);
+            this.hibaInputPanel = new HibaInputPanel(this);
+            this.javitasInputPanel = new JavitasInputPanel(this);
+            this.jelentesPanel = new JelentesPanel(this);
+            this.leltarPanel = new LeltarPanel(this);
+            this.napiDolgozoPanel = new NapiDolgozoPanel(this);
         } catch (Throwable e) {
             JOptionPane.showMessageDialog(null, e.getStackTrace());
         }
-
     }
 
 
@@ -180,13 +179,13 @@ public class MainFrame extends JFrame {
             javitasInputPanel.setVisible(true);
         }
 
-        public void showJavitasInputPanel (Lepcso lepcso, Hiba hiba) throws Throwable {
-            framePanel.setVisible(false);
-            this.javitasInputPanel = new JavitasInputPanel(this, lepcso, hiba);
-            add(javitasInputPanel);
-            javitasInputPanel.setVisible(true);
-
-        }
+//        public void showJavitasInputPanel (Lepcso lepcso, Hiba hiba) throws Throwable {
+//            framePanel.setVisible(false);
+//         //   this.javitasInputPanel = new JavitasInputPanel(this, lepcso, hiba);
+//            add(javitasInputPanel);
+//            javitasInputPanel.setVisible(true);
+//
+//        }
 
         public void showJavitasInputPanel (Lepcso lepcso, Javitas javitas) throws Throwable {
             framePanel.setVisible(false);

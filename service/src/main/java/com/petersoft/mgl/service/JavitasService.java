@@ -16,4 +16,5 @@ public interface JavitasService {
 
     List<Javitas> getJavitasInterval(Lepcso lepcso, LocalDate startDate, LocalDate endDate);
 
+    List<Javitas> getIdoszakosJavitas(LocalDate startDate, LocalDate endDate);
 }

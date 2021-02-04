@@ -76,7 +76,7 @@ public class LepcsoListPanel extends JPanel {
     private void setPopUpMenu() {
         popupMenu = new JPopupMenu();
         tovabbiInfoItem = new JMenuItem("További info ...");
-        hibaRogzitPopupItem = new JMenuItem("Hiba rögzítése ...");
+     //   hibaRogzitPopupItem = new JMenuItem("Hiba rögzítése ...");
         javitasRogzitPopupItem = new JMenuItem("Javítás rögzítése ...");
         erVedRogzitPopupItem = new JMenuItem("Érintésvédelem rögzítése ...");
         karbElvegezPopupItem = new JMenuItem("Karbantartás elvégzése ...");
@@ -165,14 +165,14 @@ public class LepcsoListPanel extends JPanel {
             }
         });
 
-        hibaRogzitPopupItem.addActionListener(e -> {
-            setVisible(false);
-            try {
-                frame.showHibaInputPanel(lepcso);
-            } catch (Throwable exception) {
-                JOptionPane.showMessageDialog(null, exception.getMessage());
-            }
-        });
+//        hibaRogzitPopupItem.addActionListener(e -> {
+//            setVisible(false);
+//            try {
+//                frame.showHibaInputPanel(lepcso);
+//            } catch (Throwable exception) {
+//                JOptionPane.showMessageDialog(null, exception.getMessage());
+//            }
+//        });
 
         javitasRogzitPopupItem.addActionListener(e -> {
             setVisible(false);

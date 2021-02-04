@@ -187,6 +187,35 @@ public class Reports {
             JOptionPane.showMessageDialog(null, "Nincs megjeleníthető adat");
         } else JasperViewer.viewReport(jasperPrint, false);
     }
+
+    public static void idoszakosJavitas(List<JavitasDTO> idoszakosJavitasList,
+                                        LocalDate startDate,
+                                        LocalDate endDate) throws FileNotFoundException, JRException {
+        JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(idoszakosJavitasList);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("IdoszakosJavitas", itemsJRBean);
+        parameters.put("startDate", startDate);
+        parameters.put("endDate", endDate);
+
+        //read jrxml file and creating jasperdesign object
+        InputStream input = new FileInputStream(new File(
+                "IdoszakosJavitasReport_A4.jrxml"));
+
+        JasperDesign jasperDesign = JRXmlLoader.load(input);
+
+        /*compiling jrxml with help of JasperReport class*/
+        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+        jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.NO_PAGES);
+
+        /* Using jasperReport object to generate PDF */
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
+                parameters, new JRBeanCollectionDataSource(idoszakosJavitasList, false));
+
+        /*call jasper engine to display report in jasperviewer window*/
+        if (jasperPrint.getPages().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nincs megjeleníthető adat");
+        } else JasperViewer.viewReport(jasperPrint, false);
+    }
 }
 
 
