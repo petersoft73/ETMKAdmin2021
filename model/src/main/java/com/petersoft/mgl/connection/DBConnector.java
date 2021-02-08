@@ -7,10 +7,8 @@ import com.petersoft.mgl.model.*;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.swing.border.EmptyBorder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 

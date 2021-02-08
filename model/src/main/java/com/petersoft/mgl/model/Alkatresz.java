@@ -1,5 +1,7 @@
 package com.petersoft.mgl.model;
 
+import com.petersoft.mgl.leltar.Keszlet;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -10,6 +12,8 @@ public class Alkatresz {
     private String leiras;
     private String tipus;
     private String cikkszam;
+    private String mennyEgyseg;
+  //  private Keszlet keszlet;
     private String hely;
     private Integer darabszam;
 

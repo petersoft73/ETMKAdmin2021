@@ -1,9 +1,7 @@
-package com.petersoft.mgl.model;
+package com.petersoft.mgl.leltar;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
+import com.petersoft.mgl.model.Alkatresz;
+
 import java.time.LocalDate;
 
 //@Entity
@@ -11,8 +9,9 @@ import java.time.LocalDate;
 public class Tranzakcio {
     private Integer id;
     private Alkatresz alkatresz;
-    private Raktar raktarHonnan;
+    private RaktarHely raktarHonnan;
     private LocalDate datum;
+    private Integer darabszam;
 
 //    @ManyToOne
 //    private Javitas javitas;
