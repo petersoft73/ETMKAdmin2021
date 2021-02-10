@@ -284,7 +284,7 @@ public class DBConnector extends AbstractQuery {
 
     public static List<Karbantartas> getIdoszakosKarbantartas(LocalDate startDate, LocalDate endDate) {
         open();
-        String sql = "SELECT k FROM Karbantartas k WHERE karbantartasDatum BETWEEN :startDate AND :endDate " +
+        String sql = "SELECT k FROM Karbantartas k WHERE elvegezve = '1' AND (karbantartasDatum BETWEEN :startDate AND :endDate) " +
                 "ORDER BY karbantartasDatum, lepcsoSzama";
         Query query = EntityManagerHandler.INSTANCE.getEntityManager().createQuery(sql, Karbantartas.class);
         query.setParameter("startDate", startDate);

@@ -14,26 +14,27 @@ import java.util.List;
 import java.util.Optional;
 
 public class ErVedInputPanel extends JPanel {
-    private Lepcso lepcso;
-    private JComboBox<Integer> lepcsoJComboBox;
     private final List<Lepcso> lepcsoList;
-    private JLabel locationLabel;
-    private JLabel tipusLabel;
-    private JFormattedTextField erVedErvenyesField, erVedKeltField;
-    private JTextField erVedIdField;
-    private JPanel lepcsoPanel, erVedPanel, buttonPanel;
-    private JButton visszaButton, mentesButton, mainMenuButton;
     private final LepcsoService lepcsoService;
     private final DatePicker datePicker1;
     private final DatePicker datePicker2;
+    private Lepcso lepcso;
+    private JComboBox<Integer> lepcsoJComboBox;
+    private DefaultComboBoxModel<Integer> comboBoxModel = new DefaultComboBoxModel<>();
+    private JLabel locationLabel;
+    private JLabel tipusLabel;
+    //  private JFormattedTextField erVedErvenyesField, erVedKeltField;
+    private JTextField erVedIdField;
+    private JPanel lepcsoPanel, erVedPanel, buttonPanel;
+    private JButton visszaButton, mentesButton, mainMenuButton;
 
     public ErVedInputPanel(MainFrame frame) throws Throwable {
         this.lepcsoService = new LepcsoServiceImpl();
         this.lepcsoList = lepcsoService.getAllLepcso();
-        this.datePicker1 = new CustomDatePickerClass();
-        this.datePicker2 = new CustomDatePickerClass();
+        this.datePicker1 = new DatePicker();
+        this.datePicker2 = new DatePicker();
         datePicker1.setDate(LocalDate.now());
-        datePicker2.setDate(LocalDate.now());
+
         setLayout(new BorderLayout());
         setLepcsoPanel();
         add(lepcsoPanel, BorderLayout.NORTH);
@@ -44,44 +45,39 @@ public class ErVedInputPanel extends JPanel {
         frame.add(this);
         AutoCompleteDecorator.decorate(lepcsoJComboBox);
 
+        datePicker1.addDateChangeListener(e -> datePicker2.setDate(datePicker1.getDate().plusYears(3)));
+
+
         lepcsoJComboBox.addActionListener(e -> {
-            JComboBox cb = (JComboBox) e.getSource();
-            //noinspection ConstantConditions
-            String typedText = cb.getSelectedItem().toString();
-            if (typedText.matches("^[0-9]{4,}$")) {
-                int lepcsoSzama = Integer.parseInt(typedText);
+            JComboBox<Integer> cb = (JComboBox<Integer>) e.getSource();
+            int lepcsoSzama = (int) cb.getSelectedItem();
+            if (cb.getSelectedIndex() != -1) {
                 Optional<Lepcso> result = lepcsoList.stream()
                         .filter(l -> l.getLepcsoSzama() == lepcsoSzama)
                         .findFirst();
                 this.lepcso = result.orElse(null);
-                if (lepcso != null) {
-                    setLepcsoDetailsFromComboBox(lepcso);
-                } else {
-                    JOptionPane.showMessageDialog(null,
-                            "Nem létező lépcsőszám",
-                            "Hiba", JOptionPane.INFORMATION_MESSAGE);
-                }
+                setLepcsoDetailsFromComboBox(lepcso);
             }
         });
+
 
         mentesButton.addActionListener(e -> {
             if (lepcsoJComboBox.getSelectedIndex() != -1
                     && !erVedIdField.getText().isEmpty()) {
-                erVedKeltField.setText(datePicker1.getDateStringOrEmptyString());
-                erVedErvenyesField.setText(datePicker2.getDateStringOrEmptyString());
+                //   erVedKeltField.setText(datePicker1.getDateStringOrEmptyString());
+                //   erVedErvenyesField.setText(datePicker2.getDateStringOrEmptyString());
                 int click = JOptionPane.showConfirmDialog(null,
                         "Helyesek az adatok?\n" + erVedIdField.getText() + "\n"
-                                + erVedKeltField.getText() + "\n"
-                                + erVedErvenyesField.getText(),
+                                + datePicker1.getDate() + "\n"
+                                + datePicker2.getDate(),
                         "Érintésvédelem", JOptionPane.YES_NO_OPTION);
                 if (click == JOptionPane.YES_OPTION) {
                     try {
                         lepcso.getErintesVedelem().setJegyzokonyvSzam(erVedIdField.getText());
-                        lepcso.getErintesVedelem().setErvenyes(parseDate(erVedErvenyesField.getText()));
-                        lepcso.getErintesVedelem().setKelt(parseDate(erVedKeltField.getText()));
+                        lepcso.getErintesVedelem().setErvenyes(datePicker2.getDate());
+                        lepcso.getErintesVedelem().setKelt(datePicker1.getDate());
                         lepcsoService.saveLepcso(lepcso);
-                        setVisible(false);
-                        frame.showLepcsoListPanel();
+                        JOptionPane.showMessageDialog(null, "Sikeres mentés");
                     } catch (Throwable ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
@@ -124,9 +120,9 @@ public class ErVedInputPanel extends JPanel {
     private void setLepcsoDetailsFromComboBox(Lepcso lepcso) {
         locationLabel.setText(lepcso.getLocation().getLocationName());
         tipusLabel.setText(lepcso.getTipus().getTipusNev());
-        erVedErvenyesField.setText(lepcso.getErintesVedelem().getErvenyes().toString());
+        datePicker2.setDate(lepcso.getErintesVedelem().getErvenyes());
         erVedIdField.setText(lepcso.getErintesVedelem().getJegyzokonyvSzam());
-        erVedKeltField.setText(lepcso.getErintesVedelem().getKelt().toString());
+        datePicker1.setDate(lepcso.getErintesVedelem().getKelt());
     }
 
     private void setLepcsoPanel() {
@@ -140,6 +136,7 @@ public class ErVedInputPanel extends JPanel {
         tipusLabel.setText("           ");
         tipusLabel.setFont(new Font("Serif", Font.BOLD, 16));
         lepcsoJComboBox = new JComboBox<>();
+        lepcsoJComboBox.setModel(comboBoxModel);
         lepcsoJComboBox.setEditable(false);
         lepcsoJComboBox.setSize(20, 10);
         fillComboBoxWithLepcsoId();
@@ -156,11 +153,11 @@ public class ErVedInputPanel extends JPanel {
         JLabel ervedKelteLabel = new JLabel("Jegyzőkönyv kelte: ");
         JLabel erVedErvenyesLabel = new JLabel("Érvényesség: ");
         JLabel erVedIdLabel = new JLabel("Jegyzőkönyv száma: ");
-        erVedKeltField = new JFormattedTextField();
-        erVedKeltField.setFont(new Font("Serif", Font.BOLD, 14));
+        //     erVedKeltField = new JFormattedTextField();
+        //    erVedKeltField.setFont(new Font("Serif", Font.BOLD, 14));
         //  erVedKeltField.setInputVerifier(new DateParseVerifier());
-        erVedErvenyesField = new JFormattedTextField();
-        erVedErvenyesField.setFont(new Font("Serif", Font.BOLD, 14));
+        //     erVedErvenyesField = new JFormattedTextField();
+        //    erVedErvenyesField.setFont(new Font("Serif", Font.BOLD, 14));
         //   erVedErvenyesField.setInputVerifier(new DateParseVerifier());
         erVedIdField = new JTextField(16);
         erVedIdField.setFont(new Font("Serif", Font.BOLD, 14));
@@ -221,10 +218,9 @@ public class ErVedInputPanel extends JPanel {
     }
 
     private void fillComboBoxWithLepcsoId() {
+        comboBoxModel.removeAllElements();
         if (lepcsoList != null) {
-            for (Lepcso value : lepcsoList) {
-                lepcsoJComboBox.addItem(value.getLepcsoSzama());
-            }
+            lepcsoList.forEach(i -> comboBoxModel.addElement(i.getLepcsoSzama()));
         }
     }
 

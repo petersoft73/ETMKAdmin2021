@@ -13,6 +13,7 @@ import com.petersoft.mgl.serviceimpl.JavitasServiceImpl;
 import com.petersoft.mgl.serviceimpl.LepcsoServiceImpl;
 import com.petersoft.mgl.utility.StringConstants;
 import org.apache.commons.lang3.text.WordUtils;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -42,13 +43,14 @@ public class JavitasInputPanel extends JPanel {
     private JButton visszaButton;
     private JButton mentesButton;
     private JPanel javitasPanel;
-    private JFormattedTextField javitasKeltField;
+ //   private JFormattedTextField javitasKeltField;
     private JTextArea javitasLeirasField;
     private JComboBox<Status> status;
     private JPanel lepcsoPanel;
     private JLabel locationLabel;
     private JLabel tipusLabel;
-    private JComboBox<Integer> lepcsoJComboBox;
+    private JComboBox<Integer> lepcsoJComboBox = new JComboBox<>();
+    private DefaultComboBoxModel<Integer> comboBoxModel = new DefaultComboBoxModel<>();
     private JComboBox<Integer> muszakSzamaComboBox;
     private JTextArea hibaListField;
     private HibaListDialog hibaListDialog;
@@ -71,6 +73,7 @@ public class JavitasInputPanel extends JPanel {
         setJavitasPanel();
         add(javitasPanel, BorderLayout.CENTER);
         setLepcsoFieldCombox();
+        AutoCompleteDecorator.decorate(lepcsoJComboBox);
         //  datePicker.addDateChangeListener(event -> setMuszakSzamaComboBox());
 
 
@@ -89,7 +92,7 @@ public class JavitasInputPanel extends JPanel {
         this.javitas = javitas;
         lepcsoJComboBox.setSelectedItem(lepcso.getLepcsoSzama());
         javitasLeirasField.setText(javitas.getLeiras());
-        javitasKeltField.setText(String.valueOf(javitas.getJavitasKelte()));
+     //   javitasKeltField.setText(String.valueOf(javitas.getJavitasKelte()));
         datePicker.setDate(javitas.getJavitasKelte());
         javitasLeirasField.setLineWrap(true);
         javitasLeirasField.setWrapStyleWord(true);
@@ -106,6 +109,8 @@ public class JavitasInputPanel extends JPanel {
         hibaListField.setText(WordUtils.wrap(hiba.getLeiras(), 40));
 
     }
+
+
 
     private void setButtonPanel() {
         buttonPanel = new JPanel();
@@ -128,9 +133,9 @@ public class JavitasInputPanel extends JPanel {
         hibaListField.setWrapStyleWord(true);
         hibaListField.setLineWrap(true);
         hibaListField.setFont(new Font("Serif", Font.BOLD, 14));
-        javitasKeltField = new JFormattedTextField();
-        javitasKeltField.setFont(new Font("Serif", Font.BOLD, 14));
-        javitasKeltField.setInputVerifier(new DateParseVerifier());
+     //   javitasKeltField = new JFormattedTextField();
+     //   javitasKeltField.setFont(new Font("Serif", Font.BOLD, 14));
+     //   javitasKeltField.setInputVerifier(new DateParseVerifier());
         javitasLeirasField = new JTextArea(5, 25);
         javitasLeirasField.setLineWrap(true);
         javitasLeirasField.setWrapStyleWord(true);
@@ -197,7 +202,7 @@ public class JavitasInputPanel extends JPanel {
                                     + hibaListField.getText(),
                             "Javítás Felvitele", JOptionPane.YES_NO_OPTION);
                     if (click == JOptionPane.YES_OPTION) {
-                        javitasKeltField.setText(datePicker.getDateStringOrEmptyString());
+                     //   javitasKeltField.setText(datePicker.getDateStringOrEmptyString());
                         lepcso.setStatus((Status) status.getSelectedItem());
                         if (hibaListField.getText().isEmpty()) hiba = null;
                         if (!hibaListField.getText().isEmpty()) {
@@ -215,12 +220,12 @@ public class JavitasInputPanel extends JPanel {
                         if (javitas == null) {
                             this.javitas = new Javitas(lepcso,
                                     javitasLeirasField.getText(),
-                                    LocalDate.parse(javitasKeltField.getText()),
+                                    datePicker.getDate(),
                                     muszakSzama,
                                     hiba);
                         } else {
                             this.javitas.setLeiras(javitasLeirasField.getText());
-                            this.javitas.setJavitasKelte(LocalDate.parse(javitasKeltField.getText()));
+                            this.javitas.setJavitasKelte(datePicker.getDate());
                             this.javitas.setLepcsoUzemkepes((Status) status.getSelectedItem());
                             this.javitas.setMuszakSzama(muszakSzama);
                             this.javitas.setHiba(hiba);
@@ -383,8 +388,9 @@ public class JavitasInputPanel extends JPanel {
         tipusLabel = new JLabel();
         tipusLabel.setText("           ");
         tipusLabel.setFont(new Font("Serif", Font.BOLD, 16));
-        lepcsoJComboBox = new JComboBox<>();
-        lepcsoJComboBox.setEditable(true);
+        lepcsoJComboBox.setModel(comboBoxModel);
+        AutoCompleteDecorator.decorate(lepcsoJComboBox);
+        lepcsoJComboBox.setEditable(false);
         lepcsoJComboBox.setSize(20, 10);
         fillComboBoxWithLepcsoId();
         lepcsoJComboBox.setSelectedIndex(-1);
@@ -423,29 +429,22 @@ public class JavitasInputPanel extends JPanel {
 
 
     private void fillComboBoxWithLepcsoId() {
+        comboBoxModel.removeAllElements();
         if (lepcsoList != null) {
-            for (Lepcso l : lepcsoList) {
-                lepcsoJComboBox.addItem(l.getLepcsoSzama());
-            }
+            lepcsoList.forEach(i -> comboBoxModel.addElement(i.getLepcsoSzama()));
         }
     }
 
     private void setLepcsoFieldCombox() {
         lepcsoJComboBox.addActionListener(e -> {
-            String typedText = ((JTextField) lepcsoJComboBox.getEditor().getEditorComponent()).getText();
-            if (!typedText.isEmpty() && typedText.matches("^[0-9]{4,}$")) {
-                int lepcsoSzama = Integer.parseInt(typedText);
+            JComboBox<Integer> cb = (JComboBox<Integer>) e.getSource();
+            int lepcsoSzama = (int) cb.getSelectedItem();
+            if (cb.getSelectedIndex() != -1) {
                 Optional<Lepcso> result = lepcsoList.stream()
                         .filter(l -> l.getLepcsoSzama() == lepcsoSzama)
                         .findFirst();
-                lepcso = result.orElse(null);
-                if (lepcso != null) {
-                    setLepcsoDetailsFromComboBox(lepcso);
-                } else {
-                    JOptionPane.showMessageDialog(null,
-                            "Nem létező lépcsőszám",
-                            "Hiba", JOptionPane.INFORMATION_MESSAGE);
-                }
+                this.lepcso = result.orElse(null);
+                setLepcsoDetailsFromComboBox(lepcso);
             }
         });
 
@@ -453,6 +452,7 @@ public class JavitasInputPanel extends JPanel {
     }
 
     private void setLepcsoDetailsFromComboBox(Lepcso lepcso) {
+        System.out.println("LepcsoDetailFromComboBox: " + lepcso);
         locationLabel.setText(lepcso.getLocation().getLocationName());
         tipusLabel.setText(lepcso.getTipus().getTipusNev());
         status.setSelectedItem(lepcso.getStatus());

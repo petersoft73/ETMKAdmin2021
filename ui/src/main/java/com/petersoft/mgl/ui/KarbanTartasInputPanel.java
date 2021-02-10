@@ -25,7 +25,7 @@ public class KarbanTartasInputPanel extends JPanel {
     private final List<Lepcso> lepcsoList;
     private final JComboBox<Integer> lepcsoSzamComboBox = new JComboBox<>();
     private final DefaultComboBoxModel<Integer> comboBoxModel = new DefaultComboBoxModel<>();
-    private final DatePicker datePicker = new DatePicker(); //new CustomDatePickerClass();
+    private final DatePicker datePicker = new DatePicker();
     private final JList<Karbantartas> karbantartasJList = new JList<>();
     private final DefaultListModel<Karbantartas> karbModel = new DefaultListModel<>();
     private final KarbantartasService karbantartasService = new KarbantartasServiceImpl();

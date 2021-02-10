@@ -65,4 +65,9 @@ public class KarbantartasServiceImpl implements KarbantartasService {
     public List<Karbantartas> getReportHianyzoKarbList(LocalDateTime startDate, LocalDateTime endDate) {
         return DBConnector.getReportHianyzoKarbList(startDate, endDate);
     }
+
+    @Override
+    public List<Karbantartas> getIdoszakiKarbantartasList(LocalDate startDate, LocalDate endDate) {
+        return DBConnector.getIdoszakosKarbantartas(startDate, endDate);
+    }
 }

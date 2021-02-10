@@ -41,7 +41,7 @@ public class HibaInputPanel extends JPanel {
         hibaService = new HibaServiceImpl();
         this.lepcsoList = lepcsoService.getAllLepcso();
         this.statusList = lepcsoService.getStatusList();
-        this.datePicker = new CustomDatePickerClass();
+        this.datePicker = new DatePicker();
         datePicker.setDate(LocalDate.now());
         setLayout(new BorderLayout());
         setLepcsoPanel();

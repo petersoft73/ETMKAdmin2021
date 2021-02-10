@@ -301,48 +301,36 @@ public class MainFrame extends JFrame {
             });
 
             adatBazisItem.addActionListener(e -> {
-                JavitasService javitasService = new JavitasServiceImpl();
-//            KarbantartasService karbantartasService = new KarbantartasServiceImpl();
-                try {
-                    LepcsoService lepcsoService = new LepcsoServiceImpl();
-                    List<Lepcso> lepcsoList = lepcsoService.getAllLepcso();
-                    List<LepcsoDTO> lepcsoDTOList = new ArrayList<>();
-                    lepcsoList.forEach(l -> {
-                        LepcsoDTO dto = new LepcsoDTO(l.getLepcsoSzama(),
-                                l.getLocation().getLocationName(),
-                                l.getTipus().getTipusNev());
-                        lepcsoDTOList.add(dto);
-                    });
-                    //LocalDateTime maiNap =
-                    List<LepcsoDTO> lepcsoDTOList2 =
-                            lepcsoList.stream()
-                                    //.filter(l -> l.getUpdateDateTime().equals(maiNap))
-                                    .map(l -> new LepcsoDTO(l.getLepcsoSzama(),
-                                            l.getLocation().getLocationName(),
-                                            l.getTipus().getTipusNev()))
-                                    .collect(Collectors.toList());
-                    //System.out.println(lepcsoDTOList.size());
-//                List<Karbantartas> karbantartasList = karbantartasService.getAllKarbantartas();
-                    List<Javitas> javitasList = javitasService.getJavitasList();
-                    List<JavitasDTO> javitasDTOList =
-                            javitasList.stream()
-                                    .map(j -> new JavitasDTO(j.getLepcso().getLepcsoSzama(),
-                                            j.getLeiras(),
-                                            j.getMuszakSzama(),
-                                            j.getJavitasKelte()))
-                                    .collect(Collectors.toList());
-//                System.out.println(karbantartasList);
-//                System.out.println(javitasList);
-                    // Reports.lepcsoReport(lepcsoDTOList);
-                    Reports.dailyReportJavitas(javitasDTOList);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            });
-        }
+                        String dbName = "mgl2020";
+                        String dbUser = "mgluser";
+                        String dbPass = "MGL2020User";
+                        String executeCmd = "";
+                        executeCmd = "mysqldump -u "+dbUser+" -p"+dbPass+" "+dbName+" -r MGLBackup.sql";
 
+                        Process runtimeProcess = null;
+                        try {
+                            runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                        int processComplete = 0;
+                        try {
+                            processComplete = runtimeProcess.waitFor();
+                        } catch (InterruptedException interruptedException) {
+                            interruptedException.printStackTrace();
+                        }
+                        if(processComplete == 0){
+
+                System.out.println("Backup taken successfully");
+
+            } else {
+
+                System.out.println("Could not take mysql backup");
+
+            }
+                    }
+            );
+        }
 
         private void addKarbantartasFromExcelToDataBase (Map <Integer, Set<String>> resultMap) throws Throwable {
             LepcsoService lepcsoService = new LepcsoServiceImpl();

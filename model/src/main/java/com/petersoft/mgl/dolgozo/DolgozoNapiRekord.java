@@ -115,6 +115,7 @@ public class DolgozoNapiRekord {
         CSOP_VEZ_NAPPAL("06:00  - 14.20"),
         CSOP_VEZ_EJJEL("22:00 - 06:20"),
         PIHENO("Pihenőnap"),
+        NEM_DOLGOZIK("Nem dolgozik"),
         ISMERETLEN("Válassz...");
 
         MuszakEnum(String muszak) {

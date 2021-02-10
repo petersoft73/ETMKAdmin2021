@@ -29,7 +29,6 @@ public class NapiJelentesDialog extends JDialog {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setSize(400, 200);
         setLayout(new BorderLayout());
-        setAlwaysOnTop(true);
         setVisible(true);
         datePicker = new DatePicker();
         datePicker.setDateToToday();

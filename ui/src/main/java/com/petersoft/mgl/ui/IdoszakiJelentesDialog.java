@@ -2,9 +2,13 @@ package com.petersoft.mgl.ui;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.petersoft.mgl.dto.JavitasDTO;
+import com.petersoft.mgl.dto.KarbantartasDTO;
 import com.petersoft.mgl.model.Javitas;
+import com.petersoft.mgl.model.Karbantartas;
 import com.petersoft.mgl.service.JavitasService;
+import com.petersoft.mgl.service.KarbantartasService;
 import com.petersoft.mgl.serviceimpl.JavitasServiceImpl;
+import com.petersoft.mgl.serviceimpl.KarbantartasServiceImpl;
 import net.sf.jasperreports.engine.JRException;
 
 import javax.swing.*;
@@ -13,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class IdoszakiJelentesDialog extends JDialog {
@@ -29,7 +34,6 @@ public class IdoszakiJelentesDialog extends JDialog {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setSize(400, 200);
         setLayout(new BorderLayout());
-        setAlwaysOnTop(true);
         setVisible(true);
         datePickerStartDate = new DatePicker();
         datePickerStartDate.setDate(LocalDate.now().minusMonths(1));
@@ -90,9 +94,27 @@ public class IdoszakiJelentesDialog extends JDialog {
                     fileNotFoundException.printStackTrace();
                 }
 
-            } else {
+            }
+            if (karbantartasRadioButton.isSelected()) {
+                KarbantartasService karbantartasService = new KarbantartasServiceImpl();
+                List<Karbantartas> karbantartasList = karbantartasService.getIdoszakiKarbantartasList(
+                        datePickerStartDate.getDate(), datePickerEndDate.getDate()
+                );
+                List<KarbantartasDTO> dtoList = karbantartasDTOList(karbantartasList);
+//                try {
+//                    Reports.idoszakosKarbantartas(dtoList,
+//                            datePickerStartDate.getDate(),
+//                            datePickerEndDate.getDate());
+//                } catch (FileNotFoundException | JRException fileNotFoundException) {
+//                    fileNotFoundException.printStackTrace();
+//                }
 
             }
         });
+    }
+
+    private List<KarbantartasDTO> karbantartasDTOList(List<Karbantartas> karbantartasList) {
+
+        return null;
     }
 }

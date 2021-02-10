@@ -32,4 +32,6 @@ public interface KarbantartasService {
             LocalDate endDate);
 
     List<Karbantartas> getReportHianyzoKarbList(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<Karbantartas> getIdoszakiKarbantartasList(LocalDate startDate, LocalDate endDate);
 }

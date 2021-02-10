@@ -27,6 +27,11 @@ public class KarbantartasDTO {
         this.karbTipusLeiras = karbTipusLeiras;
     }
 
+    public KarbantartasDTO(int lepcsoSzama, String karbTipusLeiras, LocalDate karbantartasDatum) {
+        this(lepcsoSzama, karbTipusLeiras);
+        this.karbantartasDatum = karbantartasDatum;
+    }
+
     public int getLepcsoSzama() {
         return lepcsoSzama;
     }
