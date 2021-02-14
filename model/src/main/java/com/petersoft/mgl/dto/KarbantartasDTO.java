@@ -10,6 +10,7 @@ public class KarbantartasDTO {
     private LocalDate karbantartasDatum;
     private String karbTipusLeiras;
 
+
     public KarbantartasDTO(int lepcsoSzama,
                            int karbTipusId,
                            int muszakSzama,
@@ -27,9 +28,10 @@ public class KarbantartasDTO {
         this.karbTipusLeiras = karbTipusLeiras;
     }
 
-    public KarbantartasDTO(int lepcsoSzama, String karbTipusLeiras, LocalDate karbantartasDatum) {
+    public KarbantartasDTO(int lepcsoSzama, String karbTipusLeiras, LocalDate karbantartasDatum, int muszakSzama) {
         this(lepcsoSzama, karbTipusLeiras);
         this.karbantartasDatum = karbantartasDatum;
+        this.muszakSzama = muszakSzama;
     }
 
     public int getLepcsoSzama() {
@@ -83,7 +85,8 @@ public class KarbantartasDTO {
     @Override
     public String toString() {
         return "KarbantartasDTO{" +
-                "lepcsoSzama=" + lepcsoSzama +
+                " karbantartasDatum=" + karbantartasDatum +
+                ", lepcsoSzama=" + lepcsoSzama +
                 ", karbTipusLeiras='" + karbTipusLeiras + '\'' +
                 '}';
     }

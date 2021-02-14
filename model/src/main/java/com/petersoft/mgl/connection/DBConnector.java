@@ -2,6 +2,7 @@ package com.petersoft.mgl.connection;
 
 import com.petersoft.mgl.dolgozo.Dolgozo;
 import com.petersoft.mgl.dolgozo.DolgozoNapiRekord;
+import com.petersoft.mgl.dto.KarbantartasDTO;
 import com.petersoft.mgl.model.Alkatresz;
 import com.petersoft.mgl.model.*;
 
@@ -284,7 +285,8 @@ public class DBConnector extends AbstractQuery {
 
     public static List<Karbantartas> getIdoszakosKarbantartas(LocalDate startDate, LocalDate endDate) {
         open();
-        String sql = "SELECT k FROM Karbantartas k WHERE elvegezve = '1' AND (karbantartasDatum BETWEEN :startDate AND :endDate) " +
+        String sql = "SELECT k FROM Karbantartas k WHERE elvegezve = '1' AND " +
+                "(karbantartasDatum BETWEEN :startDate AND :endDate) " +
                 "ORDER BY karbantartasDatum, lepcsoSzama";
         Query query = EntityManagerHandler.INSTANCE.getEntityManager().createQuery(sql, Karbantartas.class);
         query.setParameter("startDate", startDate);
@@ -292,4 +294,5 @@ public class DBConnector extends AbstractQuery {
 
         return query.getResultList();
     }
+
 }

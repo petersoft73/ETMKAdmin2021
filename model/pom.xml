@@ -67,6 +67,11 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava-gwt</artifactId>
+            <version>30.1-jre</version>
+        </dependency>
     </dependencies>
     <artifactId>model</artifactId>
 

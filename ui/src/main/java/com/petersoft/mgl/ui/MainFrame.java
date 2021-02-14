@@ -76,7 +76,7 @@ public class MainFrame extends JFrame {
             lepcsoDetailPanel.setVisible(false);
         }
         jelentesPanel.setVisible(false);
-        leltarPanel.setVisible(false);
+        this.leltarPanel.setVisible(false);
         napiDolgozoPanel.setVisible(false);
         new SearchBarDialog(this);
     }

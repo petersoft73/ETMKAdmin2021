@@ -37,7 +37,7 @@ public class SearchBarDialog extends JPanel {
         this.frame = frame;
         initComponents();
         initTableSorter();
-        frame.setVisible(true);
+        setVisible(true);
         frame.add(this);
         bindData();
     }
@@ -259,7 +259,7 @@ public class SearchBarDialog extends JPanel {
     }
 
     static class JavitasTableModelSearchBar extends AbstractTableModel {
-        private final String[] colNames = {"Lépcső száma", "Javítás leírása", "Melyik hiba?", "Dátum", "Műszak"};
+        private final String[] colNames = {"Lépcső száma", "Javítás leírása", "Melyik hiba?", "Dátum", "Túr száma"};
         private final List<Javitas> javitasListTableModel;
 
         public JavitasTableModelSearchBar(List<Javitas> javitasList) {
@@ -299,7 +299,7 @@ public class SearchBarDialog extends JPanel {
                 case 3:
                     return javitas.getJavitasKelte().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 case 4:
-                    return javitas.getMuszakSzama() + ". műszak";
+                    return javitas.getMuszakSzama() + ". túr";
             }
             return null;
         }
