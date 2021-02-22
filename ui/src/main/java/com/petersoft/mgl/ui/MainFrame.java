@@ -40,7 +40,7 @@ public class MainFrame extends JFrame {
     private JMenuItem adatBazisItem;
     private JButton reportItem;
     private LepcsoListPanel lepcsoListPanel;
-    private HibaInputPanel hibaInputPanel;
+    // private HibaInputPanel hibaInputPanel;
     private JavitasInputPanel javitasInputPanel;
     private ErVedInputPanel erVedInputPanel;
     private LepcsoDetailPanel lepcsoDetailPanel;
@@ -100,7 +100,7 @@ public class MainFrame extends JFrame {
             this.karbanTartasInputPanel = new KarbanTartasInputPanel(this);
             this.lepcsoListPanel = new LepcsoListPanel(this);
             this.erVedInputPanel = new ErVedInputPanel(this);
-            this.hibaInputPanel = new HibaInputPanel(this);
+         //   this.hibaInputPanel = new HibaInputPanel(this);
             this.javitasInputPanel = new JavitasInputPanel(this);
             this.jelentesPanel = new JelentesPanel(this);
             this.leltarPanel = new LeltarPanel(this);

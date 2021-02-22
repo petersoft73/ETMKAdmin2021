@@ -11,7 +11,7 @@ import com.petersoft.mgl.service.LepcsoService;
 import com.petersoft.mgl.serviceimpl.HibaServiceImpl;
 import com.petersoft.mgl.serviceimpl.JavitasServiceImpl;
 import com.petersoft.mgl.serviceimpl.LepcsoServiceImpl;
-import com.petersoft.mgl.utility.StringConstants;
+import com.petersoft.mgl.ui.highlighter.JListHighlightedFilterExample;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -19,14 +19,16 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Optional;
 
 public class JavitasInputPanel extends JPanel {
+    private static Hiba hiba;
+    private static JTextArea hibaTextArea;
     private final MainFrame frame;
     private final HibaService hibaService;
     private final JavitasService javitasService;
@@ -37,13 +39,12 @@ public class JavitasInputPanel extends JPanel {
     private List<Javitas> javitasList;
     private List<Status> statusList;
     private Lepcso lepcso;
-    private Hiba hiba;
+    //  private Hiba hiba;
     private JPanel buttonPanel;
     private JButton mainMenuButton;
     private JButton visszaButton;
     private JButton mentesButton;
     private JPanel javitasPanel;
- //   private JFormattedTextField javitasKeltField;
     private JTextArea javitasLeirasField;
     private JComboBox<Status> status;
     private JPanel lepcsoPanel;
@@ -52,12 +53,14 @@ public class JavitasInputPanel extends JPanel {
     private JComboBox<Integer> lepcsoJComboBox = new JComboBox<>();
     private DefaultComboBoxModel<Integer> comboBoxModel = new DefaultComboBoxModel<>();
     private JComboBox<Integer> muszakSzamaComboBox;
-    private JTextArea hibaListField;
+    private JPanel hibaListPanel;
     private HibaListDialog hibaListDialog;
     private Javitas javitas;
     private int muszakSzama;
+    private String hibaTextField;
 
     public JavitasInputPanel(MainFrame frame) throws Throwable {
+
         this.frame = frame;
         this.lepcsoService = new LepcsoServiceImpl();
         this.lepcsoList = lepcsoService.getAllLepcso();
@@ -67,6 +70,7 @@ public class JavitasInputPanel extends JPanel {
 
         setLayout(new BorderLayout());
         setLepcsoPanel();
+        datePicker.addDateChangeListener(event -> setMuszakSzamaComboBox());
         add(lepcsoPanel, BorderLayout.NORTH);
         setButtonPanel();
         add(buttonPanel, BorderLayout.SOUTH);
@@ -74,7 +78,6 @@ public class JavitasInputPanel extends JPanel {
         add(javitasPanel, BorderLayout.CENTER);
         setLepcsoFieldCombox();
         AutoCompleteDecorator.decorate(lepcsoJComboBox);
-        //  datePicker.addDateChangeListener(event -> setMuszakSzamaComboBox());
 
 
     }
@@ -92,13 +95,12 @@ public class JavitasInputPanel extends JPanel {
         this.javitas = javitas;
         lepcsoJComboBox.setSelectedItem(lepcso.getLepcsoSzama());
         javitasLeirasField.setText(javitas.getLeiras());
-     //   javitasKeltField.setText(String.valueOf(javitas.getJavitasKelte()));
         datePicker.setDate(javitas.getJavitasKelte());
         javitasLeirasField.setLineWrap(true);
         javitasLeirasField.setWrapStyleWord(true);
         if (javitas.getHiba() != null) {
             this.hiba = javitas.getHiba();
-            hibaListField.setText(WordUtils.wrap(javitas.getHiba().getLeiras(), 40));
+            //   hibaListPanel.setText(WordUtils.wrap(javitas.getHiba().getLeiras(), 40));
         }
     }
 
@@ -106,13 +108,20 @@ public class JavitasInputPanel extends JPanel {
         this(frame, lepcso);
         this.lepcso = lepcso;
         this.hiba = hiba;
-        hibaListField.setText(WordUtils.wrap(hiba.getLeiras(), 40));
+        //  hibaListPanel.setText(WordUtils.wrap(hiba.getLeiras(), 40));
 
     }
 
+    public static void setHiba(Hiba h) {
+        hiba = h;
+    }
 
+    public static void setHibaTextArea(String hibaTextField) {
+        hibaTextArea.setText(hibaTextField);
+    }
 
     private void setButtonPanel() {
+
         buttonPanel = new JPanel();
         mainMenuButton = new JButton("Főmenü");
         visszaButton = new JButton("Lépcső Lista");
@@ -122,20 +131,20 @@ public class JavitasInputPanel extends JPanel {
         buttonPanel.add(mentesButton);
     }
 
-    private void setJavitasPanel() {
+    private void setJavitasPanel() throws Exception {
         javitasPanel = new JPanel(new GridBagLayout());
         JLabel javitasKelteLabel = new JLabel("Javítás kelte: ");
         JLabel javitasLeirasLabel = new JLabel("Javítás leírása (max 250 karakter) ");
-        JLabel hibaListLabel = new JLabel("Melyik hiba javítása?\n(Választás listából)");
+        JLabel hibaListLabel = new JLabel("Melyik hiba javítása?\n(Választás listából,\nvagy új hiba felvitele)");
         hibaListLabel.setFont(new Font("Serif", Font.BOLD + Font.ITALIC, 14));
         hibaListLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        hibaListField = new JTextArea(5, 25);
-        hibaListField.setWrapStyleWord(true);
-        hibaListField.setLineWrap(true);
-        hibaListField.setFont(new Font("Serif", Font.BOLD, 14));
-     //   javitasKeltField = new JFormattedTextField();
-     //   javitasKeltField.setFont(new Font("Serif", Font.BOLD, 14));
-     //   javitasKeltField.setInputVerifier(new DateParseVerifier());
+        hibaTextArea = new JTextArea(5, 25);
+        hibaTextArea.setLineWrap(true);
+        hibaTextArea.setWrapStyleWord(true);
+        hibaTextArea.setEditable(false);
+//        hibaListField.setWrapStyleWord(true);
+//        hibaListField.setLineWrap(true);
+//        hibaListField.setFont(new Font("Serif", Font.BOLD, 14));
         javitasLeirasField = new JTextArea(5, 25);
         javitasLeirasField.setLineWrap(true);
         javitasLeirasField.setWrapStyleWord(true);
@@ -147,50 +156,32 @@ public class JavitasInputPanel extends JPanel {
             }
         });
 
+
         hibaListLabel.addMouseListener(
                 new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        List<Hiba> hibaList = new ArrayList<>();
                         try {
-                            hibaList = hibaService.getHibaList().stream()
-                                    .filter(Objects::nonNull)
-                                    .collect(Collectors.toList());
+                            List<Hiba> listHiba = hibaService.getHibaList();
+                            JListHighlightedFilterExample.start(listHiba);
+//                            new HibaListDialog(hibaService.getHibaList());
+//                            hiba = HibaHighlightClass.getHiba();
+//                            hibaTextField = HibaHighlightClass.getTypedText();
+//                            hibaTextArea.setText(hibaTextField);
+//                            System.out.println(hibaTextArea.getText());
+                            System.out.println("Hiba: " + hiba + "HibaTextArea: " + hibaTextArea.getText());
                         } catch (Exception exception) {
-                            JOptionPane.showMessageDialog(null, exception.getMessage());
+                            JOptionPane.showMessageDialog(null, exception.getStackTrace());
                         }
-                        hibaListSet = new ArrayList<>();
-                        try {
-                            hibaListSet = hibaList.stream()
-                                    .filter(Objects::nonNull)
-                                    .filter(h -> !h.getLeiras().isEmpty())
-                                    .sorted(Comparator.comparing(Hiba::getLeiras,
-                                            new RuleBasedCollator(StringConstants.HUNGARIAN_COLLATOR_RULES)))
-                                    .collect(Collectors.toList());
-                        } catch (ParseException parseException) {
-                            parseException.printStackTrace();
-                        }
-//                        catch (Exception exception) {
-//                            exception.printStackTrace();
-//                        }
 
-                        hibaListDialog = new HibaListDialog(hibaListSet);
-
-                        hibaListField.setText(hibaListDialog.getSelectedHiba().getLeiras());
-                        hiba = hibaListDialog.getSelectedHiba();
                     }
                 }
         );
 
         mentesButton.addActionListener(e -> {
+            System.out.println("Hiba: " + hiba + "HibaTextArea: " + hibaTextArea.getText());
             if (lepcso != null) {
                 if (!javitasLeirasField.getText().isEmpty()) {
-//                    System.out.println(hiba);
-//                    if (hiba == null) {
-//                        System.out.println("Hiba == null: " + hiba);
-//                        hiba = new Hiba();
-//                        hiba.setLeiras(hibaListField.getText());
-//                    }
                     int click = JOptionPane.showConfirmDialog(null,
                             "Helyesek az adatok?\n"
                                     + lepcso.getLepcsoSzama() + "\n"
@@ -199,24 +190,15 @@ public class JavitasInputPanel extends JPanel {
                                     + status.getSelectedItem().toString() + "\n"
                                     + muszakSzama
                                     + ". túr" + "\n"
-                                    + hibaListField.getText(),
+                                    + hibaTextArea.getText(),
                             "Javítás Felvitele", JOptionPane.YES_NO_OPTION);
                     if (click == JOptionPane.YES_OPTION) {
-                     //   javitasKeltField.setText(datePicker.getDateStringOrEmptyString());
                         lepcso.setStatus((Status) status.getSelectedItem());
-                        if (hibaListField.getText().isEmpty()) hiba = null;
-                        if (!hibaListField.getText().isEmpty()) {
-                            if (hiba == null) {
-                                this.hiba = new Hiba(hibaListField.getText());
-                                try {
-                                    hibaService.saveHiba(this.hiba);
-                                } catch (Exception exception) {
-                                    exception.printStackTrace();
-                                }
-                            }
+                        if (hiba == null) {
+                            if (!hibaTextArea.getText().isEmpty()){
+                                hiba = new Hiba(hibaTextArea.getText());
+                            }else hiba = null;
                         }
-
-                        System.out.println(hiba);
                         if (javitas == null) {
                             this.javitas = new Javitas(lepcso,
                                     javitasLeirasField.getText(),
@@ -231,12 +213,12 @@ public class JavitasInputPanel extends JPanel {
                             this.javitas.setHiba(hiba);
                         }
                         try {
-                            //  hibaService.saveHiba(hiba);
+                            if (hiba != null) hibaService.saveHiba(hiba);
                             javitasService.saveJavitas(this.javitas);
                             lepcsoService.saveLepcso(lepcso);
                             javitas = null;
                             hiba = null;
-                            hibaListField.setText("");
+                            //    hibaListPanel.setText("");
                             JOptionPane.showMessageDialog(null, "Sikeres rögzítés");
                             //frame.showLepcsoListPanel();
                         } catch (Exception exception) {
@@ -326,7 +308,7 @@ public class JavitasInputPanel extends JPanel {
         gc.gridx = 1;
         gc.insets = new Insets(0, 0, 0, 0);
         gc.anchor = GridBagConstraints.LINE_START;
-        javitasPanel.add(new JScrollPane(hibaListField), gc);
+        javitasPanel.add(hibaTextArea, gc);
 
         gc.gridx = 2;
         gc.insets = new Insets(0, 0, 0, 0);
@@ -369,7 +351,7 @@ public class JavitasInputPanel extends JPanel {
         });
 
         hibaMezoDelete.addActionListener(e -> {
-            hibaListField.setText("");
+            //  hibaListPanel.setText("");
             hiba = null;
         });
 
@@ -393,11 +375,10 @@ public class JavitasInputPanel extends JPanel {
         lepcsoJComboBox.setEditable(false);
         lepcsoJComboBox.setSize(20, 10);
         fillComboBoxWithLepcsoId();
-        lepcsoJComboBox.setSelectedIndex(-1);
         datePicker = new DatePicker();
+        lepcsoJComboBox.setSelectedIndex(-1);
         Integer[] muszakSzamArray = {1, 2, 3, 4, 5};
         muszakSzamaComboBox = new JComboBox<>(muszakSzamArray);
-        //   muszakSzamaComboBox = new JComboBox<>();
         muszakSzamaComboBox.setEditable(false);
         datePicker.addDateChangeListener(e -> setMuszakSzamaComboBox());
         datePicker.setDateToToday();
@@ -405,7 +386,7 @@ public class JavitasInputPanel extends JPanel {
         //   muszakSzamaComboBox.setSelectedIndex(0);
         //  muszakSzamaComboBox.setSelectedIndex(0);
         //  muszakSzama = 1;
-        //   setListenerMuszakComboBox();
+        setListenerMuszakComboBox();
         lepcsoPanel.add(lepcsoLabel, FlowLayout.LEFT);
         lepcsoPanel.add(lepcsoJComboBox, FlowLayout.CENTER);
         lepcsoPanel.add(tipusLabel);
@@ -426,7 +407,6 @@ public class JavitasInputPanel extends JPanel {
         muszakSzama = (int) muszakSzamaComboBox.getSelectedItem();
         muszakSzamaComboBox.setSize(30, 10);
     }
-
 
     private void fillComboBoxWithLepcsoId() {
         comboBoxModel.removeAllElements();
@@ -452,12 +432,10 @@ public class JavitasInputPanel extends JPanel {
     }
 
     private void setLepcsoDetailsFromComboBox(Lepcso lepcso) {
-        System.out.println("LepcsoDetailFromComboBox: " + lepcso);
         locationLabel.setText(lepcso.getLocation().getLocationName());
         tipusLabel.setText(lepcso.getTipus().getTipusNev());
         status.setSelectedItem(lepcso.getStatus());
     }
-
 
     private void setListenerMuszakComboBox() {
         muszakSzamaComboBox.addItemListener(e -> {
@@ -466,6 +444,7 @@ public class JavitasInputPanel extends JPanel {
             }
         });
     }
+
 
 }
 
