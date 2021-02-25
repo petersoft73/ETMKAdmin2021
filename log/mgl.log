@@ -311,3 +311,8 @@ antlr.NoViableAltException: unexpected token: SEPARATOR
 2021-febr.-14 11:02:07 de. [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'mgl2020.k.karbantartasId' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 2021-febr.-14 11:04:09 de. [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'mgl2020.k.karbantartasId' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 2021-febr.-14 11:05:02 de. [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'mgl2020.k.karbantartasId' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2021-febr.-24 19:02:55 du. [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Column 'cikkszam' cannot be null
+2021-febr.-24 19:09:18 du. [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Field 'id' doesn't have a default value
+2021-febr.-24 19:47:12 du. [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Column 'cikkszam' cannot be null
+2021-febr.-24 19:49:22 du. [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Column 'cikkszam' cannot be null
+2021-febr.-24 19:53:51 du. [AWT-EventQueue-0] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Column 'cikkszam' cannot be null

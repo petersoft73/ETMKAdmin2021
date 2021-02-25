@@ -6,6 +6,8 @@ import com.petersoft.mgl.ui.JavitasInputPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class JListHighlightedFilterExample extends JDialog{
@@ -53,8 +55,17 @@ public class JListHighlightedFilterExample extends JDialog{
             frame.dispose();
         });
 
-        jList.addListSelectionListener(e -> {
-
+        jList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    hiba = jList.getSelectedValue();
+                    typedText = hiba.getLeiras();
+                    JavitasInputPanel.setHiba(hiba);
+                    JavitasInputPanel.setHibaTextArea(typedText);
+                    frame.dispose();
+                }
+            }
         });
     }
 

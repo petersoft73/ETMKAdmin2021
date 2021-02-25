@@ -2,20 +2,22 @@ package com.petersoft.mgl.model;
 
 import com.petersoft.mgl.leltar.Keszlet;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(name = "seq", initialValue = 1)
 public class Alkatresz {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     @Id
     private Integer id;
-    private String leiras;
-    private String tipus;
-    private String cikkszam;
-    private String mennyEgyseg;
+    private String leiras = "";
+    private String tipus = "";
+    private String cikkszam = "";
+    private String egyseg = "";
   //  private Keszlet keszlet;
-    private String hely;
-    private Integer darabszam;
+    private String hely = "";
+    private Integer darabszam = 0;
+    private String megjegyzes = "";
 
     public Alkatresz() {
     }
@@ -67,11 +69,27 @@ public class Alkatresz {
     }
 
     public String getCikkszam() {
-        return cikkszam;
+        return cikkszam == null ? "" : cikkszam;
     }
 
     public void setCikkszam(String cikkszam) {
         this.cikkszam = cikkszam;
+    }
+
+    public String getMegjegyzes() {
+        return megjegyzes;
+    }
+
+    public void setMegjegyzes(String megjegyzes) {
+        this.megjegyzes = megjegyzes;
+    }
+
+    public String getEgyseg() {
+        return egyseg;
+    }
+
+    public void setEgyseg(String egyseg) {
+        this.egyseg = egyseg;
     }
 
     @Override

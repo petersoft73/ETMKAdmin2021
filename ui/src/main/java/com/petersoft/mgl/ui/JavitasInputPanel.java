@@ -169,7 +169,7 @@ public class JavitasInputPanel extends JPanel {
 //                            hibaTextField = HibaHighlightClass.getTypedText();
 //                            hibaTextArea.setText(hibaTextField);
 //                            System.out.println(hibaTextArea.getText());
-                            System.out.println("Hiba: " + hiba + "HibaTextArea: " + hibaTextArea.getText());
+                        //    System.out.println("Hiba: " + hiba + "HibaTextArea: " + hibaTextArea.getText());
                         } catch (Exception exception) {
                             JOptionPane.showMessageDialog(null, exception.getStackTrace());
                         }
@@ -179,7 +179,7 @@ public class JavitasInputPanel extends JPanel {
         );
 
         mentesButton.addActionListener(e -> {
-            System.out.println("Hiba: " + hiba + "HibaTextArea: " + hibaTextArea.getText());
+          //  System.out.println("Hiba: " + hiba + "HibaTextArea: " + hibaTextArea.getText());
             if (lepcso != null) {
                 if (!javitasLeirasField.getText().isEmpty()) {
                     int click = JOptionPane.showConfirmDialog(null,
@@ -218,7 +218,7 @@ public class JavitasInputPanel extends JPanel {
                             lepcsoService.saveLepcso(lepcso);
                             javitas = null;
                             hiba = null;
-                            //    hibaListPanel.setText("");
+                            hibaTextArea.setText("");
                             JOptionPane.showMessageDialog(null, "Sikeres rögzítés");
                             //frame.showLepcsoListPanel();
                         } catch (Exception exception) {
@@ -351,7 +351,7 @@ public class JavitasInputPanel extends JPanel {
         });
 
         hibaMezoDelete.addActionListener(e -> {
-            //  hibaListPanel.setText("");
+            hibaTextArea.setText("");
             hiba = null;
         });
 

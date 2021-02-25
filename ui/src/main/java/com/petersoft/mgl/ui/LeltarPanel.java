@@ -34,14 +34,14 @@ public class LeltarPanel extends JPanel {
 
     private void initializeComponents() {
         mainPanel = new JPanel();
-     //   mainPanel.setPreferredSize(new Dimension(800, 600));
+        //   mainPanel.setPreferredSize(new Dimension(800, 600));
         searchField = new JTextField();
         //  searchField.setSize(new Dimension(400,10));
         talalatJTable = new JTable();
         talalatJTable.setFont(new Font("Serif", Font.PLAIN, 14));
 
         visszaButton = new JButton("Vissza");
-       // mutasdButton = new JButton("Mutasd!");
+        // mutasdButton = new JButton("Mutasd!");
         AlkatreszService alkatreszService = new AlkatreszServiceImpl();
         try {
             this.alkatreszList = alkatreszService.getAlkatreszList().stream()
@@ -70,10 +70,10 @@ public class LeltarPanel extends JPanel {
         List<Alkatresz> talalat;
         talalat = alkatreszList.stream()
                 .filter(Objects::nonNull)
-                .filter(a -> a.getLeiras().toLowerCase().contains(searchText) ||
-                        a.getTipus().toLowerCase().contains(searchText) ||
-                        a.getCikkszam().toLowerCase().contains(searchText) ||
-                        a.getHely().toLowerCase().contains(searchText))
+                .filter(a -> (a.getLeiras() != null && a.getLeiras().toLowerCase().contains(searchText)) ||
+                        (a.getLeiras() != null && a.getTipus().toLowerCase().contains(searchText)) ||
+                        (a.getLeiras() != null && a.getCikkszam().toLowerCase().contains(searchText)) ||
+                        (a.getLeiras() != null && a.getHely().toLowerCase().contains(searchText)))
                 .collect(Collectors.toList());
         if (searchText.equals("")) talalat.clear();
         model = new LeltarPanelTableModel(talalat);
@@ -88,12 +88,12 @@ public class LeltarPanel extends JPanel {
         mainPanel.add(searchField);
 
         JScrollPane scrollPane = new JScrollPane(talalatJTable);
-        scrollPane.setPreferredSize(new Dimension(900,600));
+        scrollPane.setPreferredSize(new Dimension(900, 600));
         mainPanel.add(scrollPane);
         mainPanel.add(Box.createVerticalStrut(20));
         mainPanel.add(Box.createHorizontalStrut(50));
         mainPanel.add(visszaButton);
-      //  mainPanel.add(mutasdButton);
+        //  mainPanel.add(mutasdButton);
         mainPanel.setVisible(true);
         add(mainPanel);
 

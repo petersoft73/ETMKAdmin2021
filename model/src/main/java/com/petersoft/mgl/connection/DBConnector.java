@@ -74,7 +74,7 @@ public class DBConnector extends AbstractQuery {
     public static List<Hiba> getHibaList() {
         open();
         TypedQuery<Hiba> query = EntityManagerHandler.INSTANCE
-                .getEntityManager().createQuery("SELECT hiba FROM Hiba hiba", Hiba.class);
+                .getEntityManager().createQuery("SELECT hiba FROM Hiba hiba ORDER BY leiras", Hiba.class);
         return query.getResultList();
     }
 
@@ -230,11 +230,26 @@ public class DBConnector extends AbstractQuery {
 
     public static List<Alkatresz> getAlkatreszList() {
         open();
-        String sql = "SELECT a FROM Alkatresz a";
+        String sql = "SELECT a FROM Alkatresz a ORDER BY leiras";
         Query query = EntityManagerHandler.INSTANCE.getEntityManager()
                 .createQuery(sql, Alkatresz.class);
 
         return query.getResultList();
+    }
+
+    public static void deleteAlkatresz(Alkatresz a) {
+        open();
+        if (a != null) {
+            EntityManagerHandler.INSTANCE.getEntityManager().remove(a);
+            EntityManagerHandler.INSTANCE.getEntityTransaction().commit();
+        }
+
+    }
+
+    public static void saveAlkatresz(Alkatresz a) {
+        open();
+        EntityManagerHandler.INSTANCE.getEntityManager().persist(a);
+        EntityManagerHandler.INSTANCE.getEntityTransaction().commit();
     }
 
     public static List<Dolgozo> getAllDolgozo(Integer[] muszakSzama) {
