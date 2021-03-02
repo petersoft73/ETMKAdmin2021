@@ -16,7 +16,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -31,7 +30,7 @@ public class MainFrame extends JFrame {
     private JButton hibaButton;
     private JButton javitasButton;
     private JButton lepcsoInputButton;
-    private JButton karbantartasMenuButton, leltarButton, dolgozoButton;
+    private JButton karbantartasMenuButton, leltarButton, dolgozoButton, searchButton;
     private JMenuItem exitMenuItem;
     private JMenuItem loadKarbantartasMenuItem;
     private JMenuItem adatBazisItem;
@@ -48,6 +47,7 @@ public class MainFrame extends JFrame {
     private LepcsoService lepcsoService = new LepcsoServiceImpl();
     private JelentesPanel jelentesPanel;
     private NapiDolgozoPanel napiDolgozoPanel;
+    private SearchBarDialog searchBarDialog;
 
 
     public MainFrame() {
@@ -63,20 +63,23 @@ public class MainFrame extends JFrame {
 
     }
 
-    private void showSearchBarDialog() throws Exception {
+    public void showSearchBarDialog() throws Exception {
         framePanel.setVisible(false);
-        lepcsoListPanel.setVisible(false);
-        //   hibaInputPanel.setVisible(false);
-        erVedInputPanel.setVisible(false);
-        javitasInputPanel.setVisible(false);
-        karbanTartasInputPanel.setVisible(false);
-        if (lepcsoDetailPanel != null) {
-            lepcsoDetailPanel.setVisible(false);
-        }
-        jelentesPanel.setVisible(false);
-        this.leltarPanel.setVisible(false);
-        napiDolgozoPanel.setVisible(false);
-        new SearchBarDialog(this);
+        this.searchBarDialog = new SearchBarDialog(this);
+        add(this.searchBarDialog);
+        searchBarDialog.setVisible(true);
+//        lepcsoListPanel.setVisible(false);
+//        //   hibaInputPanel.setVisible(false);
+//        erVedInputPanel.setVisible(false);
+//        javitasInputPanel.setVisible(false);
+//        karbanTartasInputPanel.setVisible(false);
+//        if (lepcsoDetailPanel != null) {
+//            lepcsoDetailPanel.setVisible(false);
+//        }
+//        jelentesPanel.setVisible(false);
+//        this.leltarPanel.setVisible(false);
+//        napiDolgozoPanel.setVisible(false);
+//        new SearchBarDialog(this);
     }
 
     public void showKarbanTartasPanel() throws Throwable {
@@ -219,6 +222,9 @@ public class MainFrame extends JFrame {
         karbantartasMenuButton = new JButton("Karbantartás");
         leltarButton = new JButton("Alkatrész kereső");
         dolgozoButton = new JButton("Dolgozó Napi Beosztás");
+        searchButton = new JButton("Keresés a javítások között");
+        framePanel.add(searchButton);
+        framePanel.add(leltarButton);
         framePanel.add(lepcsoListButton);
         //  framePanel.add(hibaButton);
         framePanel.add(javitasButton);
@@ -228,7 +234,6 @@ public class MainFrame extends JFrame {
         framePanel.add(lepcsoInputButton);
         framePanel.add(dolgozoButton);
         framePanel.add(reportItem);
-        framePanel.add(leltarButton);
         framePanel.add(exitMenuButton);
         framePanel.setVisible(true);
         add(framePanel, BorderLayout.CENTER);
@@ -311,7 +316,6 @@ public class MainFrame extends JFrame {
                     ioException.printStackTrace();
                 }
             }
-
         });
 
         reportItem.addActionListener(e -> {
@@ -320,32 +324,39 @@ public class MainFrame extends JFrame {
         });
 
         adatBazisItem.addActionListener(e -> {
-                    String dbName = "mgl2020";
-                    String dbUser = "mgluser";
-                    String dbPass = "MGL2020User";
-                    String executeCmd = "";
-                    executeCmd = "mysqldump -u " + dbUser + " -p" + dbPass + " " + dbName + " -r MGLBackup.sql";
+                    JFileChooser fileChooser = new JFileChooser();
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("SQL file", "sql");
+                    fileChooser.setFileFilter(filter);
+                    int returnVal = fileChooser.showSaveDialog(this);
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        File file = fileChooser.getSelectedFile();
+                        String filename = file.getAbsolutePath();
+                        if (!filename.endsWith(".sql")) {
+                            file = new File(filename + ".sql");
+                        }
+                        String dbName = "mgl2020";
+                        String dbUser = "mgluser";
+                        String dbPass = "MGL2020User";
+                        String executeCmd = "";
+                        executeCmd = "mysqldump -u " + dbUser + " -p" + dbPass + " " + dbName + " -r " + file.getAbsolutePath();
 
-                    Process runtimeProcess = null;
-                    try {
-                        runtimeProcess = Runtime.getRuntime().exec(executeCmd);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                    int processComplete = 0;
-                    try {
-                        processComplete = runtimeProcess.waitFor();
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
-                    if (processComplete == 0) {
-
-                        System.out.println("Backup taken successfully");
-
-                    } else {
-
-                        System.out.println("Could not take mysql backup");
-
+                        Process runtimeProcess = null;
+                        try {
+                            runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                        int processComplete = 0;
+                        try {
+                            processComplete = runtimeProcess.waitFor();
+                        } catch (InterruptedException interruptedException) {
+                            interruptedException.printStackTrace();
+                        }
+                        if (processComplete == 0) {
+                            JOptionPane.showMessageDialog(null, "Backup taken successfully");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Could not take mysql backup");
+                        }
                     }
                 }
         );
@@ -398,21 +409,23 @@ public class MainFrame extends JFrame {
             framePanel.setVisible(false);
             try {
                 showErVedInputPanel();
+                erVedInputPanel.setVisible(true);
             } catch (Throwable exception) {
-                exception.printStackTrace();
+                JOptionPane.showMessageDialog(null, exception.getMessage());
             }
-            erVedInputPanel.setVisible(true);
         });
 
-//        hibaButton.addActionListener(e -> {
-//            framePanel.setVisible(false);
-//            try {
-//                showHibaInputPanel();
-//            } catch (Throwable exception) {
-//                exception.printStackTrace();
-//            }
-//            hibaInputPanel.setVisible(true);
-//        });
+        searchButton.addActionListener(e -> {
+            framePanel.setVisible(false);
+            try {
+                showSearchBarDialog();
+                searchBarDialog.setVisible(true);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } catch (Throwable exception) {
+                JOptionPane.showMessageDialog(null, exception.getMessage());
+            }
+        });
 
         javitasButton.addActionListener(e -> {
             framePanel.setVisible(false);
@@ -510,21 +523,21 @@ public class MainFrame extends JFrame {
         fileMenu.add(loadKarbantartasMenuItem);
         fileMenu.add(alkatreszFrissitesMenuItem);
         fileMenu.add(exitMenuItem);
-        JMenuItem searchMenu = new JMenuItem(new AbstractAction(StringConstants.SEARCH_MENU_ITEM) {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    showSearchBarDialog();
-                } catch (Exception exception) {
-                    JOptionPane.showMessageDialog(null, exception.getStackTrace());
-                }
-            }
-        });
+//        JMenuItem searchMenu = new JMenuItem(new AbstractAction(StringConstants.SEARCH_MENU_ITEM) {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                try {
+//                    showSearchBarDialog();
+//                } catch (Exception exception) {
+//                    JOptionPane.showMessageDialog(null, exception.getStackTrace());
+//                }
+//            }
+//        });
 
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         menuBar.add(fileMenu);
         menuBar.add(separator);
-        menuBar.add(searchMenu);
+//        menuBar.add(searchMenu);
 
         return menuBar;
     }

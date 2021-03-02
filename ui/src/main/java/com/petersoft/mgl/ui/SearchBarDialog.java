@@ -13,10 +13,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +28,16 @@ public class SearchBarDialog extends JPanel {
     private final JavitasService javitasService = new JavitasServiceImpl();
     private List<Javitas> javitasList;
     private final MainFrame frame;
+    private JavitasTableModelSearchBar javitasTableModel;
 
 
     public SearchBarDialog(MainFrame frame) throws Exception {
         this.frame = frame;
+        bindData();
         initComponents();
         initTableSorter();
         setVisible(true);
         frame.add(this);
-        bindData();
     }
 
     private void initTableSorter() {
@@ -87,6 +85,8 @@ public class SearchBarDialog extends JPanel {
         javitasJTable = new JTable();
     //    hibaJTable.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 13));
         javitasJTable.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 13));
+        javitasTableModel = new JavitasTableModelSearchBar(javitasList);
+        javitasJTable.setModel(javitasTableModel);
 
         JPanel jPanel2 = new JPanel();
      //   JPanel hibaListPanel = new JPanel();
@@ -209,8 +209,18 @@ public class SearchBarDialog extends JPanel {
 //        HibaTableModelSearchBar hibaTableModel = new HibaTableModelSearchBar(listHiba);
 //        this.hibaJTable.setModel(hibaTableModel);
 //        hibaTableModel.fireTableDataChanged();
-        JavitasTableModelSearchBar javitasTableModel = new JavitasTableModelSearchBar(listJavitas);
-        this.javitasJTable.setModel(javitasTableModel);
+        javitasTableModel = new JavitasTableModelSearchBar(listJavitas);
+        javitasJTable.setModel(javitasTableModel);
+        javitasJTable.getParent().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(final ComponentEvent e) {
+                if (javitasJTable.getPreferredSize().width < javitasJTable.getParent().getWidth()) {
+                    javitasJTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+                } else {
+                    javitasJTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                }
+            }
+        });
         javitasTableModel.fireTableDataChanged();
 
 
@@ -287,9 +297,7 @@ public class SearchBarDialog extends JPanel {
 
             switch (column) {
                 case 0:
-                    return javitas.getLepcso().getLepcsoSzama()
-                            + " :: " + javitas.getLepcso().getLocation()
-                            + " :: " + javitas.getLepcso().getTipus();
+                    return javitas.getLepcso().getLepcsoSzama();
 
                 case 1:
                     return javitas.getLeiras();
@@ -297,7 +305,7 @@ public class SearchBarDialog extends JPanel {
                     return javitas.getHiba() != null ?
                             javitas.getHiba().getLeiras() : "";
                 case 3:
-                    return javitas.getJavitasKelte().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    return javitas.getJavitasKelte();
                 case 4:
                     return javitas.getMuszakSzama() + ". túr";
             }

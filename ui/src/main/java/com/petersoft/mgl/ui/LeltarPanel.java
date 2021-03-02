@@ -115,7 +115,7 @@ public class LeltarPanel extends JPanel {
     }
 
     private class LeltarPanelTableModel extends AbstractTableModel {
-        private final String[] colNames = {"Alkatrész megnevezés", "Típus", "Cikkszám", "Hol van?", "Darabszám"};
+        private final String[] colNames = {"Alkatrész megnevezés", "Típus", "Cikkszám", "Hol van?", "Darabszám", "Egység"};
         private List<Alkatresz> list;
 
         public LeltarPanelTableModel(List<Alkatresz> list) {
@@ -152,6 +152,8 @@ public class LeltarPanel extends JPanel {
                     return alkatresz.getHely();
                 case 4:
                     return alkatresz.getDarabszam();
+                case 5:
+                    return alkatresz.getEgyseg();
             }
             return null;
         }

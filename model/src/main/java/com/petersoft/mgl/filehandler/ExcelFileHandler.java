@@ -96,8 +96,8 @@ public class ExcelFileHandler {
                                 resultMap.put(lepcsoSzama, cell.getStringCellValue().trim());
                             }
                         }
-                        System.out.println("Sheet No: " + i + " Row No: " + j + " Cell No: " + k);
-                        System.out.println(resultMap);
+//                        System.out.println("Sheet No: " + i + " Row No: " + j + " Cell No: " + k);
+//                        System.out.println(resultMap);
                     }
                 }
             }
