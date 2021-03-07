@@ -3,7 +3,6 @@ package com.petersoft.mgl.app;
 import com.petersoft.mgl.ui.MainFrame;
 
 import javax.swing.*;
-import java.util.TimeZone;
 
 public class App {
 
