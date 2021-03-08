@@ -77,7 +77,7 @@
 	<detail>
 		<band height="155">
 			<componentElement>
-				<reportElement style="Table_CH" positionType="Float" stretchType="RelativeToTallestObject" x="2" y="0" width="573" height="150" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="5e18b62f-f776-4266-ab39-19bed2dac1d7">
+				<reportElement style="Table_CH" x="2" y="0" width="573" height="150" isRemoveLineWhenBlank="true" uuid="5e18b62f-f776-4266-ab39-19bed2dac1d7">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -101,7 +101,7 @@
 						<jr:columnFooter style="Table_CH" height="30" rowSpan="1"/>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement style="Table_TD" positionType="Float" stretchType="ElementGroupHeight" x="0" y="0" width="70" height="30" isPrintWhenDetailOverflows="true" uuid="009d93a1-4e58-44f4-919d-70a323948365"/>
+								<reportElement x="0" y="0" width="70" height="30" uuid="009d93a1-4e58-44f4-919d-70a323948365"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{javitasKelte}]]></textFieldExpression>
 							</textField>
@@ -121,7 +121,7 @@
 						<jr:columnFooter style="Table_CH" height="30" rowSpan="1"/>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement style="Table_TD" positionType="Float" stretchType="ElementGroupHeight" x="0" y="0" width="80" height="30" isPrintWhenDetailOverflows="true" uuid="7bc44215-6e6b-49ad-ac2c-91ea145e6862"/>
+								<reportElement x="0" y="0" width="80" height="30" uuid="7bc44215-6e6b-49ad-ac2c-91ea145e6862"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{lepcso_lepcsoSzama}]]></textFieldExpression>
 							</textField>
@@ -141,7 +141,7 @@
 						<jr:columnFooter style="Table_CH" height="30" rowSpan="1"/>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement style="Table_TD" positionType="Float" stretchType="ElementGroupHeight" x="0" y="0" width="360" height="30" isPrintWhenDetailOverflows="true" uuid="70cd5c64-5361-4e3c-ac3a-899f8e1cc6b0"/>
+								<reportElement x="0" y="0" width="360" height="30" uuid="70cd5c64-5361-4e3c-ac3a-899f8e1cc6b0"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{leiras}]]></textFieldExpression>
 							</textField>
@@ -161,7 +161,7 @@
 						<jr:columnFooter style="Table_CH" height="30" rowSpan="1"/>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement style="Table_TD" positionType="Float" stretchType="ElementGroupHeight" x="0" y="0" width="63" height="30" isPrintWhenDetailOverflows="true" uuid="b10481ae-cf82-4b1f-bbac-6b0a3307a35c"/>
+								<reportElement x="0" y="0" width="63" height="30" uuid="b10481ae-cf82-4b1f-bbac-6b0a3307a35c"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{muszakSzama}]]></textFieldExpression>
 							</textField>

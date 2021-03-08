@@ -198,7 +198,7 @@ public class Reports {
 
         //read jrxml file and creating jasperdesign object
         InputStream input = new FileInputStream(new File(
-                "ui/src/main/java/com/petersoft/mgl/ui/IdoszakosJavitasReport_A4.jrxml"));
+                "ui/src/main/java/com/petersoft/mgl/ui/IdoszakosJavitasReport_A4_Orig.jrxml"));
 
         JasperDesign jasperDesign = JRXmlLoader.load(input);
 
